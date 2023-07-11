@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class SwervePositionController extends CommandBase {
 
-    /*
+    /**
      * PID values for X, Y, and Rotation (THETA)
      */
 
@@ -29,7 +29,7 @@ public class SwervePositionController extends CommandBase {
     public static double THETA_kI = 0.0;
     public static double THETA_kD = 0.0;
 
-    /*
+    /**
      * PID Controllers for X, Y, and Rotation (THETA)
      */
 
@@ -81,7 +81,7 @@ public class SwervePositionController extends CommandBase {
 
         double clampAdd = 1 + Math.abs(referenceAngle.getRadians() - currentRotation.getRadians()) * (2 / Math.PI);
 
-        /*
+        /**
          * Feedforward values for X, Y, and Rotation (THETA)
          */
 
@@ -92,13 +92,13 @@ public class SwervePositionController extends CommandBase {
                 * MathUtil.clamp(thetaController.calculate(currentRotation.getRadians(), referenceAngle.getRadians()),
                         -clampAdd, clampAdd);
 
-        /*
+        /**
          * Feedback values for X, Y
          */
         double xFeedback = xController.calculate(currentPose.getX(), desiredState.poseMeters.getX());
         double yFeedback = yController.calculate(currentPose.getY(), desiredState.poseMeters.getY());
 
-        /*
+        /**
          * Send values to Drivetrain
          */
         ChassisSpeeds adjustedSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xFF + xFeedback, yFF + yFeedback, thetaFF,
@@ -107,7 +107,7 @@ public class SwervePositionController extends CommandBase {
         Drivetrain.getInstance().setAngleAndDrive(adjustedSpeeds);
     }
 
-    /*
+    /**
      * Check if the robot has reached the end of the trajectory
      */
 
@@ -116,7 +116,7 @@ public class SwervePositionController extends CommandBase {
         return timer.get() >= trajectory.getTotalTimeSeconds();
     }
 
-    /*
+    /**
      * stop the drivetrain
      */
 

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Autons {
 
-    /*
+    /**
      * topPath : Grab game piece from bot, drop off at node, and move back out of
      * community zone
      */
@@ -20,7 +20,7 @@ public class Autons {
                     () -> Rotation2d.fromDegrees(180),
                     () -> Rotation2d.fromDegrees(180)));
 
-    /*
+    /**
      * middlePath : Grab game piece from bot, drop off at node, and move back on
      * chargePad
      */
@@ -37,7 +37,7 @@ public class Autons {
                     () -> Rotation2d.fromDegrees(180)),
             new AlignPitch());
 
-    /*
+    /**
      * bottomPath : Grab game piece from bot, drop off at node, and move back out of
      * community zone
      */
@@ -53,7 +53,7 @@ public class Autons {
                     () -> Rotation2d.fromDegrees(180),
                     () -> Rotation2d.fromDegrees(180)));
 
-    /*
+    /**
      * middleAndCross : Grab game piece from bot, drop off at node, and move back
      * over chargePad to cross commmunity line and move back on chargePad (21 point
      * auton)
@@ -76,7 +76,7 @@ public class Autons {
                     () -> Rotation2d.fromDegrees(180)),
             new AlignPitch());
 
-    /*
+    /**
      * noAuton : Grab game piece from bot and drop off at node
      */
 
