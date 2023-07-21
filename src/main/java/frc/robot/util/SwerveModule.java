@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import harkerrobolib.util.HSFalconBuilder;
 import harkerrobolib.wrappers.HSFalcon;
@@ -23,7 +22,7 @@ public class SwerveModule {
 
     private int kP = 0;
 
-    private int kS = 0 ;
+    private int kS = 0;
     private int kV = 0;
     private int kA = 0;
 
@@ -32,11 +31,11 @@ public class SwerveModule {
 
         translation = new HSFalconBuilder().invert(RobotMap.SwerveModule.TRANSLATION_INVERTS[id]).supplyLimit
             (RobotMap.SwerveModule.TRANS_PEAK, RobotMap.SwerveModule.TRANS_CONTINUOUS, RobotMap.SwerveModule.TRANS_PEAK_DUR).build
-            (RobotMap.SwerveModule.TRANSLATION_IDS[id], RobotMap.SwerveModule.CAN_CHAIN);
+            (RobotMap.SwerveModule.TRANSLATION_IDS[id], RobotMap.CAN_CHAIN);
 
         rotation = new HSFalconBuilder().invert(RobotMap.SwerveModule.ROTATION_INVERTS[id]).supplyLimit
             (RobotMap.SwerveModule.ROT_PEAK, RobotMap.SwerveModule.ROT_CONTINUOUS, RobotMap.SwerveModule.ROT_PEAK_DUR).build
-            (RobotMap.SwerveModule.ROTATION_IDS[id],RobotMap.SwerveModule.CAN_CHAIN);
+            (RobotMap.SwerveModule.ROTATION_IDS[id],RobotMap.CAN_CHAIN);
 
         init();
     }   
@@ -88,7 +87,7 @@ public class SwerveModule {
         rotation.setSelectedSensorPosition(position/RobotMap.SwerveModule.ROTATION_CONVERSION);
         zeroTranslation();
     }
-    private void zeroTranslation(){
+    public void zeroTranslation(){
         translation.setSelectedSensorPosition(0);
     }
     public double getAngle(){

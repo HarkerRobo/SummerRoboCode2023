@@ -1,7 +1,9 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.AngledElevator;
 import frc.robot.subsystems.Drivetrain;
 import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.Constants;
@@ -57,9 +59,9 @@ public class SwerveManual extends IndefiniteCommand {
         Drivetrain.getInstance().adjustPigeon(omega);
 
         // aligns to nearest target
-        if (OI.getInstance().getDriver().getRightBumperState()) {
-            omega = Drivetrain.getInstance().alignToTarget(omega);
-        }
+        // if (OI.getInstance().getDriver().getRightBumperState()) {
+        //     omega = Drivetrain.getInstance().alignToTarget(omega);
+        // }
 
         // if rotational velocity is very small
         if (Math.abs(omega) < RobotMap.Drivetrain.MIN_OUTPUT) {

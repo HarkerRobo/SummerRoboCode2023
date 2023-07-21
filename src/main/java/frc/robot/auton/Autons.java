@@ -1,6 +1,13 @@
 package frc.robot.auton;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotMap;
+import frc.robot.commands.claw.CloseClaw;
+import frc.robot.commands.claw.OpenClaw;
+import frc.robot.commands.drivetrain.AlignPitch;
+import frc.robot.commands.elevator.MoveToPosition;
+import frc.robot.commands.elevator.ZeroElevator;
 
 public class Autons {
 
