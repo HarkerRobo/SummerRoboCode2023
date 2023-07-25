@@ -1,11 +1,10 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.AngledElevator;
 
 public class ZeroElevator extends CommandBase {
-
-    public static final double ZERO_SPEED = -0.45;
 
     public ZeroElevator() {
         addRequirements(AngledElevator.getInstance());
@@ -16,7 +15,7 @@ public class ZeroElevator extends CommandBase {
      */
 
     public void execute() {
-        AngledElevator.getInstance().setElevatorPower(ZERO_SPEED);
+        AngledElevator.getInstance().setElevatorPower(RobotMap.ZeroElevator.ZERO_SPEED);
     }
 
     /**

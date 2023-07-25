@@ -11,13 +11,6 @@ import harkerrobolib.util.MathUtil;
 
 public class SwerveManual extends IndefiniteCommand {
 
-    // Speed multipliers
-    public static final double SPEED_MULTIPLIER = 1.5;
-    public static final double ROT_MULITPLLIER = 0.25;
-    public static final double CLAMP_MULTIPLIER = 0.7;
-    public static final double MAX_ACCELERATION = 35;
-    public static final double MAX_ACCELERATION_EXTENDED = 6.5;
-
     private double vx, vy, prevvx, prevvy, omega;
 
     public SwerveManual() {
@@ -42,9 +35,9 @@ public class SwerveManual extends IndefiniteCommand {
                 OI.getInstance().getDriver().getRightX(), Constants.JOYSTICK_DEADBAND);
 
         // Scaling velocities based on multipliers
-        vx = scaleValues(vx, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? CLAMP_MULTIPLIER : SPEED_MULTIPLIER);
-        vy = scaleValues(vy, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? CLAMP_MULTIPLIER : SPEED_MULTIPLIER);
-        omega = scaleValues(omega, RobotMap.MAX_ANGLE_VELOCITY) * ((AngledElevator.getInstance().isFarExtended()) ? ROT_MULITPLLIER : SPEED_MULTIPLIER);
+        vx = scaleValues(vx, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
+        vy = scaleValues(vy, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
+        omega = scaleValues(omega, RobotMap.MAX_ANGLE_VELOCITY) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.ROT_MULITPLLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
 
         // limits acceleration
         vy = limitAcceleration(vy, prevvy);
@@ -59,9 +52,9 @@ public class SwerveManual extends IndefiniteCommand {
         Drivetrain.getInstance().adjustPigeon(omega);
 
         // aligns to nearest target
-        // if (OI.getInstance().getDriver().getRightBumperState()) {
-        //     omega = Drivetrain.getInstance().alignToTarget(omega);
-        // }
+        if (OI.getInstance().getDriver().getRightBumperState()) {
+            omega = Drivetrain.getInstance().alignToTarget(omega);
+        }
 
         // if rotational velocity is very small
         if (Math.abs(omega) < RobotMap.Drivetrain.MIN_OUTPUT) {
@@ -81,9 +74,9 @@ public class SwerveManual extends IndefiniteCommand {
      * @return          corrected velocity
      */
     private double limitAcceleration(double value, double prevValue) {
-        if (Math.abs(value - prevValue) / Constants.ROBOT_LOOP > ((AngledElevator.getInstance().isFarExtended()) ? MAX_ACCELERATION_EXTENDED : MAX_ACCELERATION)) {
+        if (Math.abs(value - prevValue) / Constants.ROBOT_LOOP > ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.MAX_ACCELERATION_EXTENDED : RobotMap.SwerveManual.MAX_ACCELERATION)) {
             value = prevValue + Math.signum(value - prevValue)
-                    * ((AngledElevator.getInstance().isFarExtended()) ? MAX_ACCELERATION_EXTENDED : MAX_ACCELERATION)
+                    * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.MAX_ACCELERATION_EXTENDED : RobotMap.SwerveManual.MAX_ACCELERATION)
                     * Constants.ROBOT_LOOP;
             // previous velocity + direction of movement (+/-) * acceleration * time (a=v/t)
         }

@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 
 import java.util.function.Supplier;
@@ -15,28 +16,12 @@ import java.util.function.Supplier;
 public class SwervePositionController extends CommandBase {
 
     /**
-     * PID values for X, Y, and Rotation (THETA)
-     */
-
-    public static double X_kP = 3.0; // TUNE (based on RoboCode2023 values)
-    public static double X_kI = 0.0;
-    public static double X_kD = 0.0;
-
-    public static double Y_kP = 2.5; // TUNE (based on RoboCode2023 values)
-    public static double Y_kI = 0.0;
-    public static double Y_kD = 0.0;
-
-    public static double THETA_kP = 1.0; // TUNE (based on RoboCode2023 values)
-    public static double THETA_kI = 0.0;
-    public static double THETA_kD = 0.0;
-
-    /**
      * PID Controllers for X, Y, and Rotation (THETA)
      */
 
-    private static PIDController xController = new PIDController(X_kP, X_kI, X_kD);
-    private static PIDController yController = new PIDController(Y_kP, Y_kI, Y_kD);
-    private static PIDController thetaController = new PIDController(THETA_kP, THETA_kI, THETA_kD);
+    private static PIDController xController = new PIDController(RobotMap.SwervePositionController.X_kP, RobotMap.SwervePositionController.X_kI, RobotMap.SwervePositionController.X_kD);
+    private static PIDController yController = new PIDController(RobotMap.SwervePositionController.Y_kP, RobotMap.SwervePositionController.Y_kI, RobotMap.SwervePositionController.Y_kD);
+    private static PIDController thetaController = new PIDController(RobotMap.SwervePositionController.THETA_kP, RobotMap.SwervePositionController.THETA_kI, RobotMap.SwervePositionController.THETA_kD);
 
     private Trajectory trajectory;
     private Supplier<Rotation2d> referenceHeading;
@@ -69,9 +54,9 @@ public class SwervePositionController extends CommandBase {
 
     @Override
     public void execute() {
-        xController.setP(X_kP);
-        yController.setP(Y_kP);
-        thetaController.setP(THETA_kP);
+        xController.setP(RobotMap.SwervePositionController.X_kP);
+        yController.setP(RobotMap.SwervePositionController.Y_kP);
+        thetaController.setP(RobotMap.SwervePositionController.THETA_kP);
 
         Trajectory.State desiredState = Trajectories.apply(trajectory.sample(timer.get()));
 

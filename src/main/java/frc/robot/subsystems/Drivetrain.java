@@ -20,6 +20,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.util.CameraPoseEstimation;
 import frc.robot.util.SwerveModule;
 
 public class Drivetrain extends SubsystemBase {
@@ -30,17 +31,9 @@ public class Drivetrain extends SubsystemBase {
     private Pigeon2 pigeon;
     private double prevHeading;
 
-    public static final double PIGEON_kP = 1.0;
-
     private SwerveDriveKinematics kinematics; // converts chassis speeds (x, y, theta) to module states (speed, angle)
 
-    // Profiled PID for theta (turning) control
-    private static final double THETA_P = 0.118;
-    private static final double THETA_I = 0.0;
-    private static final double THETA_D = 0.0;
-    private static ProfiledPIDController thetaController = new ProfiledPIDController(THETA_P, THETA_I, THETA_D, new Constraints(4, 3.5));
-    public static final double MAX_ERROR_YAW = 0.5;
-    public static final double OFFSET = 9.5;
+    private static ProfiledPIDController thetaController = new ProfiledPIDController(RobotMap.Drivetrain.THETA_P, RobotMap.Drivetrain.THETA_I, RobotMap.Drivetrain.THETA_D, new Constraints(4, 3.5));
 
     // Estimates the robot's pose through encoder (state) and vision measurements;
     private SwerveDrivePoseEstimator poseEstimator;
@@ -68,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
             new Translation2d(-RobotMap.ROBOT_LENGTH / 2, -RobotMap.ROBOT_WIDTH / 2));
 
         // sets how much error to allow on theta controller
-        thetaController.setTolerance(MAX_ERROR_YAW);
+        thetaController.setTolerance(RobotMap.Drivetrain.MAX_ERROR_YAW);
 
         // initial pose (holds the x, y, heading)
         Pose2d initalPoseMeters = new Pose2d();
@@ -103,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
      */
     public double adjustPigeon(double omega) {
         if (Math.abs(omega) <= RobotMap.Drivetrain.MIN_OUTPUT) {
-            omega = -PIGEON_kP * (prevHeading - getHeading());
+            omega = -RobotMap.Drivetrain.PIGEON_kP * (prevHeading - getHeading());
         }
         else {
             prevHeading = getHeading();
@@ -189,15 +182,15 @@ public class Drivetrain extends SubsystemBase {
      * @param omega     rotational speed
      * @return          adjusted rotational speed
      */
-    // public double alignToTarget(double omega) {
-    //     var result = CameraPoseEstimation.getInstance().getCamera().getLatestResult();
-    //     if (result.hasTargets()) {
-    //         omega =
-    //             -thetaController.calculate(result.getBestTarget().getYaw() - OFFSET);
-    //         setPreviousHeading(getHeading());
-    //     }
-    //     return omega;
-    //   }
+    public double alignToTarget(double omega) {
+        var result = CameraPoseEstimation.getInstance().getCamera().getLatestResult();
+        if (result.hasTargets()) {
+            omega =
+                -thetaController.calculate(result.getBestTarget().getYaw() - RobotMap.Drivetrain.OFFSET);
+            setPreviousHeading(getHeading());
+        }
+        return omega;
+      }
 
     /**
      * @return kinematics of swerve drive

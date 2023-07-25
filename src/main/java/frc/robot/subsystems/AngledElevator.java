@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -156,5 +157,17 @@ public class AngledElevator extends SubsystemBase{
             instance = new AngledElevator();
         
         return instance;
+    }
+
+    /**
+     * Smart Dashboard Function
+     */
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Elevator");
+        builder.setActuator(true);
+        builder.setSafeState(() -> setElevatorPower(0));
+        builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
     }
 }
