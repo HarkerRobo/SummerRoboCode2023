@@ -50,50 +50,57 @@ public final class RobotMap {
     }
 
     public static final class SwerveModule {
-        // gear ratio
-        public static final double TRANSLATION_GEAR_RATIO = 1.0;
-        // diameter of the wheel
-        public static final double WHEEL_DIAMETER = 1.0;
-
         // id of translation motors
-        public static final int[] TRANSLATION_IDS = { 0, 0, 0, 0 };
+        public static final int[] TRANSLATION_IDS = {1, 2, 3, 4};
 
         // translation motors inverted
-        public static final boolean[] TRANSLATION_INVERTS = { false, false, false, false };
-
-        // current limit constants for translation motors
-        public static final double TRANS_PEAK = 0.0;
-        public static final double TRANS_CONTINUOUS = 0.0;
-        public static final double TRANS_PEAK_DUR = 0.0;
+        public static final boolean[] TRANSLATION_INVERTS = {false, false, false, false};
 
         // ids for rotation motors
-        public static final int[] ROTATION_IDS = { 0, 0, 0, 0 };
+        public static final int[] ROTATION_IDS = {5, 6, 7, 8};
 
         // rotation motors inverted
-        public static final boolean[] ROTATION_INVERTS = { false, false, false, false };
+        public static final boolean[] ROTATION_INVERTS = {false, false, false, false};
 
-        // current limit constants for rotation motors
-        public static final double ROT_PEAK = 0.0;
-        public static final double ROT_CONTINUOUS = 0.0;
-        public static final double ROT_PEAK_DUR = 0.0;
+        // cancoder ids
+        public static final int[] CAN_CODER_ID = {9, 10, 11, 12};
 
         // offsets of cancoders of each swerve module
-        public static final double[] CAN_CODER_OFFSETS = { 0.0, 0.0, 0.0, 0.0 };
+        public static final double[] CAN_CODER_OFFSETS = {323.613 - 180, 244.951 - 180, 266.572 + 180, 91.406};
+
+        // current limit constants for translation motors
+        public static final double TRANS_PEAK = 30;
+        public static final double TRANS_CONTINUOUS = 60;
+        public static final double TRANS_PEAK_DUR = 0.1;
+
+        // current limit constants for rotation motors
+        public static final double ROT_PEAK = 25;
+        public static final double ROT_CONTINUOUS = 40;
+        public static final double ROT_PEAK_DUR = 0.1;
+
+        // gear ratios
+        public static final double TRANSLATION_GEAR_RATIO = 6.75;
+        public static final double ROTATION_GEAR_RATIO = 12.8;
+        // diameter of the wheel
+        public static final double WHEEL_DIAMETER = 4.0;
 
         // conversions from native units
         public static final double ROTATION_CONVERSION = Conversions.conversionConstant(Conversions.System.ANGLE,
-                TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
+                ROTATION_GEAR_RATIO, WHEEL_DIAMETER);
         public static final double VELOCITY_CONVERSION = Conversions.conversionConstant(Conversions.System.VELOCITY,
                 TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
         public static final double POSITION_CONVERSION = Conversions.conversionConstant(Conversions.System.POSITION,
                 TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
 
         // rotation kP
-        public static final int kP = 0;
+        public static final double ROTATION_KP = 0.25;
 
-        public static final int kS = 0;
-        public static final int kV = 0;
-        public static final int kA = 0;
+        // Translation FF Values
+        public static final double TRANSLATION_KS = 0.00; // 0.02569
+        public static final double TRANSLATION_KV = 1.954584;
+        public static final double TRANSLATION_KA = 0.21522;
+
+        public static final double TRANSLATION_QELMS = 15;
     }
 
     public static final class AlignPitch {

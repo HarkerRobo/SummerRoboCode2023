@@ -139,10 +139,10 @@ public class Drivetrain extends SubsystemBase {
      */
     private SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
-          swerveModules[0].getCurrentPosition(),
-          swerveModules[1].getCurrentPosition(),
-          swerveModules[2].getCurrentPosition(),
-          swerveModules[3].getCurrentPosition()
+          swerveModules[0].getSwerveModulePosition(),
+          swerveModules[1].getSwerveModulePosition(),
+          swerveModules[2].getSwerveModulePosition(),
+          swerveModules[3].getSwerveModulePosition()
         };
     }
 
@@ -252,13 +252,13 @@ public class Drivetrain extends SubsystemBase {
 
         for (int i = 0; i < 4; i++) {
         builder.addDoubleProperty(
-            SwerveModule.moduleName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
+            SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
         builder.addDoubleProperty(
-            SwerveModule.moduleName(i) + " Translation Position",
-            swerveModules[i]::getPosition,
+            SwerveModule.swerveIDToName(i) + " Translation Position",
+            swerveModules[i]::getWheelPosition,
             null);
         builder.addDoubleProperty(
-            SwerveModule.moduleName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
+            SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
         }
     }
 }
