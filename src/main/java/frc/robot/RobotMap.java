@@ -36,7 +36,7 @@ public final class RobotMap {
         // Pigeon ID
         public static final int PIGEON_ID = 1;
 
-        public static final double PIGEON_kP = 1.0;
+        public static final double PIGEON_kP = 0.9;
 
         public static final double MIN_OUTPUT = 0.01;
 
@@ -96,8 +96,8 @@ public final class RobotMap {
         public static final double ROTATION_KP = 0.25;
 
         // Translation FF Values
-        public static final double TRANSLATION_KS = 0.00; // 0.02569
-        public static final double TRANSLATION_KV = 1.954584;
+        public static final double TRANSLATION_KS = 0.62569; //0.02569
+        public static final double TRANSLATION_KV = 2.204584; //1.954584
         public static final double TRANSLATION_KA = 0.21522;
 
         public static final double TRANSLATION_QELMS = 15;
@@ -118,7 +118,7 @@ public final class RobotMap {
 
     public static final class SwerveManual {
         // Speed multipliers
-        public static final double SPEED_MULTIPLIER = 1.5;
+        public static final double SPEED_MULTIPLIER = 1.0;
         public static final double ROT_MULITPLIER = 0.25;
         public static final double CLAMP_MULTIPLIER = 0.7;
         public static final double MAX_ACCELERATION = 35;
@@ -128,7 +128,7 @@ public final class RobotMap {
     // CLAW
     public static final class Claw {
         public static final int CLAW_FORWARD_ID = 0;
-        public static final int CLAW_REVERSE_ID = 0;
+        public static final int CLAW_REVERSE_ID = 1;
     }
 
     // ELEVATOR
