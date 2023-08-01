@@ -119,7 +119,7 @@ public final class RobotMap {
     public static final class SwerveManual {
         // Speed multipliers
         public static final double SPEED_MULTIPLIER = 1.5;
-        public static final double ROT_MULITPLLIER = 0.25;
+        public static final double ROT_MULITPLIER = 0.25;
         public static final double CLAMP_MULTIPLIER = 0.7;
         public static final double MAX_ACCELERATION = 35;
         public static final double MAX_ACCELERATION_EXTENDED = 6.5;

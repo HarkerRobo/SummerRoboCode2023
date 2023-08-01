@@ -70,7 +70,7 @@ public class Drivetrain extends SubsystemBase {
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
             getRotation(),
-            null,
+            getModulePositions(),
             initalPoseMeters,
             stateStdDevs,
             visionStdDevs);

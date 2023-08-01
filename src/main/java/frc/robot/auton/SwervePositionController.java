@@ -71,12 +71,11 @@ public class SwervePositionController extends CommandBase {
          * Feedforward values for X, Y, and Rotation (THETA)
          */
 
-        double xFF = desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getCos();
-        double yFF = desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getSin();
+        double xFF = desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getCos(); // meters per second
+        double yFF = desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getSin(); // meters per second
 
-        double thetaFF = desiredState.velocityMetersPerSecond
-                * MathUtil.clamp(thetaController.calculate(currentRotation.getRadians(), referenceAngle.getRadians()),
-                        -clampAdd, clampAdd);
+        double thetaFF = MathUtil.clamp(thetaController.calculate(currentRotation.getRadians(), referenceAngle.getRadians()),
+                        -clampAdd, clampAdd); // radians per second
 
         /**
          * Feedback values for X, Y

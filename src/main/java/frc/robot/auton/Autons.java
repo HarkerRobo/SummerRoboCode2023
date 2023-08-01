@@ -39,7 +39,7 @@ public class Autons {
             new OpenClaw(),
             new MoveToPosition(0),
             new SwervePositionController(
-                    Trajectories.topPath,
+                    Trajectories.chargePad,
                     () -> Rotation2d.fromDegrees(180),
                     () -> Rotation2d.fromDegrees(180)),
             new AlignPitch());

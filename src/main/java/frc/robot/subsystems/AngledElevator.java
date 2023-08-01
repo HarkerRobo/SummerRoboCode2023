@@ -102,14 +102,6 @@ public class AngledElevator extends SubsystemBase{
     }
 
     /**
-     * @return  kP
-     */
-
-    public double getkP() {
-        return RobotMap.AngledElevator.kP;
-    }
-
-    /**
      * if power is 0, disable the motor
      * @param   power
      * @return  power to the motors using PercentOutput (constant); extends / retracts motors

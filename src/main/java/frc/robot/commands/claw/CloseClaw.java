@@ -10,7 +10,7 @@ public class CloseClaw extends InstantCommand {
     }
 
     public void initialize() {
-        Claw.getInstance().releaseClaw();
+        Claw.getInstance().pinchClaw();
     }
     
 }

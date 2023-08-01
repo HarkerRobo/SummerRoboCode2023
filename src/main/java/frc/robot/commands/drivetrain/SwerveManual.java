@@ -37,7 +37,7 @@ public class SwerveManual extends IndefiniteCommand {
         // Scaling velocities based on multipliers
         vx = scaleValues(vx, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
         vy = scaleValues(vy, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
-        omega = scaleValues(omega, RobotMap.MAX_ANGLE_VELOCITY) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.ROT_MULITPLLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
+        omega = scaleValues(omega, RobotMap.MAX_ANGLE_VELOCITY) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.ROT_MULITPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
 
         // limits acceleration
         vy = limitAcceleration(vy, prevvy);
