@@ -1,13 +1,18 @@
 package frc.robot.util;
 
+import java.beans.FeatureDescriptor;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
@@ -23,8 +28,7 @@ public class SwerveModule {
     //swerve module id
     private int ID;
 
-    //velocity control
-    private MotorVelocitySystem transLoop;
+    private SimpleMotorFeedforward feedforward;
 
     public SwerveModule(int id) {
         ID = id;
@@ -39,12 +43,11 @@ public class SwerveModule {
             .invert(RobotMap.SwerveModule.ROTATION_INVERTS[id])
             .supplyLimit(RobotMap.SwerveModule.ROT_PEAK, RobotMap.SwerveModule.ROT_CONTINUOUS, RobotMap.SwerveModule.ROT_PEAK_DUR)
             .build(RobotMap.SwerveModule.ROTATION_IDS[id],RobotMap.CAN_CHAIN);
-
-        transLoop = new MotorVelocitySystem(RobotMap.SwerveModule.TRANSLATION_KS, RobotMap.SwerveModule.TRANSLATION_KV,
-            RobotMap.SwerveModule.TRANSLATION_KA, RobotMap.SwerveModule.TRANSLATION_QELMS);
         
         canCoder = new CANCoder(RobotMap.SwerveModule.CAN_CODER_ID[id]);
 
+        feedforward = new SimpleMotorFeedforward(RobotMap.SwerveModule.TRANSLATION_KS, RobotMap.SwerveModule.TRANSLATION_KV, RobotMap.SwerveModule.TRANSLATION_KA);
+        
         init();
     }   
     /**
@@ -52,6 +55,9 @@ public class SwerveModule {
      */
     private void init() {
         rotation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.ROTATION_KP);
+        translation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KP);
+        translation.config_kI(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KI);
+        translation.config_kD(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KD);
         translation.enableVoltageCompensation(false); //disables voltage compensation 
         translation.configVelocityMeasurementWindow(32); //number of samples measured 
         canCoder.configFactoryDefault();
@@ -68,7 +74,7 @@ public class SwerveModule {
      */
     public void setAngleAndDrive(SwerveModuleState state) {
         state = optimize(state);
-        translation.setVoltage(transLoop.getVoltage(state.speedMetersPerSecond, getSpeed()));
+        translation.set(ControlMode.Velocity, state.speedMetersPerSecond / RobotMap.SwerveModule.VELOCITY_CONVERSION, DemandType.ArbitraryFeedForward, feedforward.calculate(state.speedMetersPerSecond)/Constants.MAX_VOLTAGE);
         rotation.set(ControlMode.Position, state.angle.getDegrees() / RobotMap.SwerveModule.ROTATION_CONVERSION);
     }
     /*

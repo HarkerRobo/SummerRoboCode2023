@@ -36,7 +36,7 @@ public final class RobotMap {
         // Pigeon ID
         public static final int PIGEON_ID = 1;
 
-        public static final double PIGEON_kP = 0.9;
+        public static final double PIGEON_kP = 1.0;
 
         public static final double MIN_OUTPUT = 0.01;
 
@@ -93,14 +93,18 @@ public final class RobotMap {
                 TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
 
         // rotation kP
-        public static final double ROTATION_KP = 0.25;
+        public static final double ROTATION_KP = 0.3;
 
         // Translation FF Values
-        public static final double TRANSLATION_KS = 0.62569; //0.02569
-        public static final double TRANSLATION_KV = 2.204584; //1.954584
+        public static final double TRANSLATION_KS = 0.0269;
+        public static final double TRANSLATION_KV = 1.954584;
         public static final double TRANSLATION_KA = 0.21522;
 
-        public static final double TRANSLATION_QELMS = 15;
+        // pid
+        public static final double TRANSLATION_KP = 0.05;
+        public static final double TRANSLATION_KI = 0.0;
+        public static final double TRANSLATION_KD = 0; //0.9;
+        ; //0.7;
     }
 
     public static final class AlignPitch {
@@ -187,16 +191,5 @@ public final class RobotMap {
         public static double THETA_kP = 1.0; // TUNE (based on RoboCode2023 values)
         public static double THETA_kI = 0.0;
         public static double THETA_kD = 0.0;
-    }
-
-    // Motor Velocity System
-
-    public static final class MotorVelocitySystem {
-        // Standard deviations for the model and encoder measurements
-        public static final Vector<N1> MODEL_STD_DEV = VecBuilder.fill(0.1); // m/s, uncertainty in the model
-        public static final Vector<N1> ENCODER_STD_DEV = VecBuilder.fill(0.3); // m/s, uncertainty in encoder readings
-
-        // Maximum voltage vector for the motor
-        public static final Vector<N1> RELMS = VecBuilder.fill(Constants.MAX_VOLTAGE);
     }
 }
