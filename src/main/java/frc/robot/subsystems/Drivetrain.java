@@ -182,15 +182,15 @@ public class Drivetrain extends SubsystemBase {
      * @param omega     rotational speed
      * @return          adjusted rotational speed
      */
-    public double alignToTarget(double omega) {
-        var result = CameraPoseEstimation.getInstance().getCamera().getLatestResult();
-        if (result.hasTargets()) {
-            omega =
-                -thetaController.calculate(result.getBestTarget().getYaw() - RobotMap.Drivetrain.OFFSET);
-            setPreviousHeading(getHeading());
-        }
-        return omega;
-      }
+    // public double alignToTarget(double omega) {
+    //     var result = CameraPoseEstimation.getInstance().getCamera().getLatestResult();
+    //     if (result.hasTargets()) {
+    //         omega =
+    //             -thetaController.calculate(result.getBestTarget().getYaw() - RobotMap.Drivetrain.OFFSET);
+    //         setPreviousHeading(getHeading());
+    //     }
+    //     return omega;
+    //   }
 
     /**
      * @return kinematics of swerve drive

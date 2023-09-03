@@ -36,7 +36,7 @@ public final class RobotMap {
         // Pigeon ID
         public static final int PIGEON_ID = 1;
 
-        public static final double PIGEON_kP = 1.0;
+        public static final double PIGEON_kP = 0.25;
 
         public static final double MIN_OUTPUT = 0.01;
 
@@ -82,7 +82,7 @@ public final class RobotMap {
         public static final double TRANSLATION_GEAR_RATIO = 6.75;
         public static final double ROTATION_GEAR_RATIO = 12.8;
         // diameter of the wheel
-        public static final double WHEEL_DIAMETER = 4.0;
+        public static final double WHEEL_DIAMETER = 4.0; // inches
 
         // conversions from native units
         public static final double ROTATION_CONVERSION = Conversions.conversionConstant(Conversions.System.ANGLE,
@@ -93,17 +93,17 @@ public final class RobotMap {
                 TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
 
         // rotation kP
-        public static final double ROTATION_KP = 0.3;
+        public static final double ROTATION_KP = 0.2;
 
         // Translation FF Values
-        public static final double TRANSLATION_KS = 0.0269;
+        public static final double TRANSLATION_KS = 0.02569;
         public static final double TRANSLATION_KV = 1.954584;
         public static final double TRANSLATION_KA = 0.21522;
 
         // pid
-        public static final double TRANSLATION_KP = 0.05;
-        public static final double TRANSLATION_KI = 0.0;
-        public static final double TRANSLATION_KD = 0; //0.9;
+        public static final double TRANSLATION_KP = 0.076;
+        public static final double TRANSLATION_KI = 0.00;
+        public static final double TRANSLATION_KD = 0.00; //0.9;
         ; //0.7;
     }
 

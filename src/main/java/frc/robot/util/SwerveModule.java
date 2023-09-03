@@ -4,13 +4,16 @@ import java.beans.FeatureDescriptor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -20,8 +23,8 @@ import harkerrobolib.wrappers.HSFalcon;
 
 public class SwerveModule {
     //motors on the swerve modules
-    private HSFalcon translation;
-    private HSFalcon rotation; 
+    private TalonFX translation;
+    private TalonFX rotation; 
 
     private CANCoder canCoder;
 
@@ -34,6 +37,8 @@ public class SwerveModule {
         ID = id;
 
         //configures translation and rotation motors
+      //  translation= new TalonFX(id);
+        //translation.setInverted(RobotMap.SwerveModule.TRANSLATION_INVERTS[id]);
         translation = new HSFalconBuilder()
             .invert(RobotMap.SwerveModule.TRANSLATION_INVERTS[id])
             .supplyLimit(RobotMap.SwerveModule.TRANS_PEAK, RobotMap.SwerveModule.TRANS_CONTINUOUS, RobotMap.SwerveModule.TRANS_PEAK_DUR)
@@ -54,12 +59,20 @@ public class SwerveModule {
      * Sets cancoders to default
      */
     private void init() {
+        translation.clearStickyFaults();
+
+        rotation.clearStickyFaults();
+
+        translation.configFactoryDefault();
+        rotation.configFactoryDefault();
+
         rotation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.ROTATION_KP);
         translation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KP);
         translation.config_kI(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KI);
         translation.config_kD(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KD);
-        translation.enableVoltageCompensation(false); //disables voltage compensation 
+        translation.enableVoltageCompensation(true); //disables voltage compensation 
         translation.configVelocityMeasurementWindow(32); //number of samples measured 
+        translation.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_10Ms);
         canCoder.configFactoryDefault();
         canCoder.clearStickyFaults();
         canCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
