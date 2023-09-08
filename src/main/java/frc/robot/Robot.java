@@ -114,11 +114,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Autons.bottomPath.cancel();
-    Autons.topPath.cancel();
-    Autons.middlePath.cancel();
-    Autons.middleAndCross.cancel();
-    Autons.noAuton.cancel();
+    // Autons.bottomPath.cancel();
+    // Autons.topPath.cancel();
+    // Autons.middlePath.cancel();
+    // Autons.middleAndCross.cancel();
+    // Autons.noAuton.cancel();
     Drivetrain.getInstance().setYaw(180);
   }
 
@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    AngledElevator.getInstance().setDesiredPosition(0);
+   // AngledElevator.getInstance().setDesiredPosition(0);
     AngledElevator.getInstance().moveToPosition(0);
   }
 

@@ -43,7 +43,8 @@ public class OI {
 
         // X = HP, Y = High, B = Middle, A = Low
         driver.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
-        driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]));
+        driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
+        .POSITIONS[2]));
         driver.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
         driver.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
 

@@ -35,7 +35,7 @@ public class Autons {
     public static final SequentialCommandGroup middlePath = new SequentialCommandGroup(
             new ZeroElevator(),
             new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
+            new MoveToPosition(39500),
             new OpenClaw(),
             new MoveToPosition(0),
             new SwervePositionController(
@@ -90,7 +90,7 @@ public class Autons {
     public static final SequentialCommandGroup noAuton = new SequentialCommandGroup(
             new ZeroElevator(),
             new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
+            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]), 
             new OpenClaw(),
             new MoveToPosition(0));
 }

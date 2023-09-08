@@ -109,7 +109,7 @@ public final class RobotMap {
 
     public static final class AlignPitch {
         // PID values for the pitch controller
-        public static final double kP = 0.05;
+        public static final double kP = 0.0178;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
 
@@ -131,14 +131,14 @@ public final class RobotMap {
 
     // CLAW
     public static final class Claw {
-        public static final int CLAW_FORWARD_ID = 0;
-        public static final int CLAW_REVERSE_ID = 1;
+        public static final int CLAW_FORWARD_ID = 1;
+        public static final int CLAW_REVERSE_ID = 0;
     }
 
     // ELEVATOR
     public static final class AngledElevator {
-        public static final double kP = 0.13; // Based on RoboCode2023; TUNE
-        public static final double kG = 0.09; // Based on RoboCode2023; TUNE
+        public static final double kP = 0.12; // Based on RoboCode2023; TUNE
+        public static final double kG = 0.06; // Based on RoboCode2023; TUNE
 
         public static final double MAX_ERROR = 100;
 
