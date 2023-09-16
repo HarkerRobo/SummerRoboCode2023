@@ -34,7 +34,7 @@ public class MoveToPosition extends CommandBase {
      */
 
     public boolean isFinished() {
-        return (AngledElevator.getInstance().checkExtend(position) || timer.get() > 5);
+        return (AngledElevator.getInstance().checkExtend(position) || timer.get() > 2.5);
     }
 
     /**

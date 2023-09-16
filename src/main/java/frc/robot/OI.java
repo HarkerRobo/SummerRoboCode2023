@@ -41,9 +41,10 @@ public class OI {
         // set Right DPad Button to toggle claw
         driver.getRightDPadButton().onTrue(new ToggleClaw());
 
-        // X = HP, Y = High, B = Middle, A = Low
+        // X = HP, Y = High, B = Middle, A = Lo
         driver.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
         driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
+        
         .POSITIONS[2]));
         driver.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
         driver.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));

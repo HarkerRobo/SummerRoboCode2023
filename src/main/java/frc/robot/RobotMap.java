@@ -36,7 +36,7 @@ public final class RobotMap {
         // Pigeon ID
         public static final int PIGEON_ID = 1;
 
-        public static final double PIGEON_kP = 0.25;
+        public static final double PIGEON_kP = 1.1;
 
         public static final double MIN_OUTPUT = 0.01;
 
@@ -109,9 +109,9 @@ public final class RobotMap {
 
     public static final class AlignPitch {
         // PID values for the pitch controller
-        public static final double kP = 0.0178;
+        public static final double kP = 0.014; // no bumpers - 0.0187, with - 0.017
         public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static final double kD = 0;
 
         // Pitch value to reach (0 since the robot should be flat)
         public static final double SETPOINT = 0;
@@ -131,14 +131,15 @@ public final class RobotMap {
 
     // CLAW
     public static final class Claw {
-        public static final int CLAW_FORWARD_ID = 1;
-        public static final int CLAW_REVERSE_ID = 0;
+        public static final int CLAW_FORWARD_ID = 0;
+        public static final int CLAW_REVERSE_ID = 1;
     }
 
     // ELEVATOR
+    
     public static final class AngledElevator {
         public static final double kP = 0.12; // Based on RoboCode2023; TUNE
-        public static final double kG = 0.06; // Based on RoboCode2023; TUNE
+        public static final double kG = 0.087; // Based on RoboCode2023; TUNE
 
         public static final double MAX_ERROR = 100;
 
@@ -161,7 +162,7 @@ public final class RobotMap {
 
         // POSITIONS: Low, Middle, High, Human Player (HP)
         public static double[] POSITIONS = {
-                10018, 27000, 39500, 27500
+                10018, 27000, 39500, 28500
         };
 
         // HORIZONTAL Offsets: Middle, High, Human Player (HP)

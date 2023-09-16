@@ -12,7 +12,7 @@ import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
 import harkerrobolib.wrappers.HSFalcon;
 
-public class AngledElevator extends SubsystemBase{
+public class AngledElevator extends SubsystemBase {
     private static AngledElevator instance;
 
     private HSFalcon master;
@@ -87,12 +87,12 @@ public class AngledElevator extends SubsystemBase{
 
     /**
      * check if the elevator is extended
-     * @param   desiredPosition 
+     * @param   desiredposition 
      * @return  whether the absolute value of the desired position minus the current position is less than the max error of the elevator
      */
 
-    public boolean checkExtend(double desiredpOsition) {
-        return Math.abs(desiredpOsition - master.getSelectedSensorPosition()) < RobotMap.AngledElevator.MAX_ERROR;
+    public boolean checkExtend(double desiredposition) {
+        return Math.abs(desiredposition - master.getSelectedSensorPosition()) < RobotMap.AngledElevator.MAX_ERROR;
     }
 
     /**
