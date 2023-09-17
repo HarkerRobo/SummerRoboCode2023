@@ -1,10 +1,6 @@
 package frc.robot;
 
-import harkerrobolib.util.Constants;
 import harkerrobolib.util.Conversions;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
@@ -93,7 +89,7 @@ public final class RobotMap {
                 TRANSLATION_GEAR_RATIO, WHEEL_DIAMETER);
 
         // rotation kP
-        public static final double ROTATION_KP = 0.2;
+        public static  double ROTATION_KP = 0.2;
 
         // Translation FF Values
         public static final double TRANSLATION_KS = 0.02569;
@@ -101,9 +97,9 @@ public final class RobotMap {
         public static final double TRANSLATION_KA = 0.21522;
 
         // pid
-        public static final double TRANSLATION_KP = 0.076;
-        public static final double TRANSLATION_KI = 0.00;
-        public static final double TRANSLATION_KD = 0.00; //0.9;
+        public static  double TRANSLATION_KP = 0.076;
+        public static  double TRANSLATION_KI = 0.00;
+        public static  double TRANSLATION_KD = 0.00; //0.9;
         ; //0.7;
     }
 
@@ -136,10 +132,10 @@ public final class RobotMap {
     }
 
     // ELEVATOR
-    
+
     public static final class AngledElevator {
-        public static final double kP = 0.12; // Based on RoboCode2023; TUNE
-        public static final double kG = 0.087; // Based on RoboCode2023; TUNE
+        public static double kP = 0.65; // Based on RoboCode2023; TUNE
+        public static double kG = 0.11; // Based on RoboCode2023; TUNE
 
         public static final double MAX_ERROR = 100;
 
@@ -172,7 +168,7 @@ public final class RobotMap {
     }
 
     public static final class ZeroElevator {
-        public static final double ZERO_SPEED = -0.45;
+        public static double ZERO_SPEED = -0.25;
     }
 
     // AUTON CONSTANTS

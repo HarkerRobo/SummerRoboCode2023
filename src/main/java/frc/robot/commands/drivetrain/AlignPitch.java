@@ -3,7 +3,9 @@ package frc.robot.commands.drivetrain;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 
@@ -14,6 +16,7 @@ public class AlignPitch extends CommandBase {
             RobotMap.AlignPitch.kP, RobotMap.AlignPitch.kI, RobotMap.AlignPitch.kD, new Constraints(RobotMap.MAX_DRIVING_SPEED, RobotMap.MAX_DRIVING_SPEED / 2));
 
     public AlignPitch() {
+        SmartDashboard.putNumber("AlignPitchkP",RobotMap.AlignPitch.kP);
         addRequirements(Drivetrain.getInstance());
     }
 
@@ -45,7 +48,7 @@ public class AlignPitch extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return pitchController.atSetpoint();
+        return pitchController.atSetpoint()||OI.getInstance().getDriver().getUpDPadButtonState();
     }
 
     /**

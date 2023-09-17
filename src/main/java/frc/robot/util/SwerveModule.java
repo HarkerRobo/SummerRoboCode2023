@@ -1,6 +1,6 @@
 package frc.robot.util;
 
-import java.beans.FeatureDescriptor;
+import java.net.NetworkInterface;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -13,13 +13,10 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
-import harkerrobolib.wrappers.HSFalcon;
 
 public class SwerveModule {
     //motors on the swerve modules
@@ -54,7 +51,8 @@ public class SwerveModule {
         feedforward = new SimpleMotorFeedforward(RobotMap.SwerveModule.TRANSLATION_KS, RobotMap.SwerveModule.TRANSLATION_KV, RobotMap.SwerveModule.TRANSLATION_KA);
         
         init();
-    }   
+    }
+
     /**
      * Sets cancoders to default
      */
@@ -81,6 +79,7 @@ public class SwerveModule {
         setAbsolutePosition();
         
     }
+
     /**
      * Sets translation and rotation motors to move to new state
      * @param state new state 
@@ -90,7 +89,8 @@ public class SwerveModule {
         translation.set(ControlMode.Velocity, state.speedMetersPerSecond / RobotMap.SwerveModule.VELOCITY_CONVERSION, DemandType.ArbitraryFeedForward, feedforward.calculate(state.speedMetersPerSecond)/Constants.MAX_VOLTAGE);
         rotation.set(ControlMode.Position, state.angle.getDegrees() / RobotMap.SwerveModule.ROTATION_CONVERSION);
     }
-    /*
+
+    /**
      * adjusts the angle of a swerve module state 
      */
     public SwerveModuleState optimize (SwerveModuleState desiredState){
@@ -118,7 +118,8 @@ public class SwerveModule {
         return new SwerveModuleState(speed, Rotation2d.fromRadians(adjusted));
         
     }
-    /*
+
+    /**
      * resets the swerve module
      */
     private void setAbsolutePosition() {
@@ -130,40 +131,98 @@ public class SwerveModule {
     public void zeroTranslation() {
         translation.setSelectedSensorPosition(0);
     }
-    /*
-     * returns the angle of the rotation motor 
+
+    /**
+     * @return  the angle of the rotation motor 
      */
+
     public double getAngle() {
         return rotation.getSelectedSensorPosition() * RobotMap.SwerveModule.ROTATION_CONVERSION;
     }
-    /*
-     * return speed of translation motor 
+
+    /**
+     * @return  speed of translation motor 
      */
     public double getSpeed() {
         return translation.getSelectedSensorVelocity() * RobotMap.SwerveModule.VELOCITY_CONVERSION;
     }
-    /*
-     * returns position of translation motor
+
+    /**
+     * returns the output voltage of translation motor
+     * 
+     * @return applied voltage to motor in volts
+     */
+    public double getVoltageTranslation() {
+        return translation.getMotorOutputVoltage();
+    }
+
+    /**
+     * returns the output voltage of rotation motor
+     * 
+     * @return  applied voltage to motor in volts
+     */
+    public double getVoltageRotation() {
+        return rotation.getMotorOutputVoltage();
+    }
+
+    /**
+     * @return  position of translation motor
      */
     public double getWheelPosition() {
         return translation.getSelectedSensorPosition() * RobotMap.SwerveModule.POSITION_CONVERSION;
     }
 
-    //returns position and angle
+    /**
+     * @return  position and angle of swerve module
+     */
     public SwerveModulePosition getSwerveModulePosition() {
         return new SwerveModulePosition(getWheelPosition(), Rotation2d.fromDegrees(getAngle()));
     }
-    //returns speed and angle
+
+    /**
+     * @return  returns speed and angle of swerve module
+     */
     public SwerveModulePosition getSwerveModuleState() {
         return new SwerveModulePosition(getSpeed(), Rotation2d.fromDegrees(getAngle()));
     }
-    //name of module on smart dashbaord 
+
+    public void setTranslationkP(double newkP) {
+        RobotMap.SwerveModule.TRANSLATION_KP = newkP;
+        translation.config_kP(Constants.SLOT_INDEX, newkP);
+    }
+
+    public void setTranslationkI(double newkI) {
+        RobotMap.SwerveModule.TRANSLATION_KI = newkI;
+        translation.config_kI(Constants.SLOT_INDEX, newkI);
+    }
+
+    public void setTranslationkD(double newkD) {
+        RobotMap.SwerveModule.TRANSLATION_KD = newkD;
+        translation.config_kD(Constants.SLOT_INDEX, newkD);
+    }
+    public void setRotationkP(double newkP) {
+        RobotMap.SwerveModule.ROTATION_KP = newkP;
+        translation.config_kP(Constants.SLOT_INDEX, newkP);
+    }
+
+    /**
+     * converts the motor ids of swerve motors to their name
+     * 
+     * @param swerveID
+     * @return  name of the swerve motor
+     */
     public static String swerveIDToName(int swerveID) {
         String output = "";
-        if (swerveID < 2) output += "Front ";
-        else output += "Back ";
-        if (swerveID % 2 == 0) output += "Left";
-        else output += "Right";
+        if (swerveID < 2)
+            output += "Front ";
+        else
+            output += "Back ";
+
+        if (swerveID % 2 == 0)
+            output += "Left";
+        else
+            output += "Right";
+
         return output;
     }
 }

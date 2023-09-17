@@ -4,9 +4,10 @@
 
 package frc.robot;
 
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -14,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.auton.Autons;
-import frc.robot.auton.SwervePositionController;
 import frc.robot.auton.Trajectories;
 import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.commands.elevator.ElevatorManual;
@@ -40,11 +40,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     LiveWindow.setEnabled(true);
     LiveWindow.enableAllTelemetry();
-    SmartDashboard.putData(RobotMap.Field.FIELD);
-    SmartDashboard.putBoolean("red", Trajectories.isFlipped());
+
+    // SmartDashboard.putData(RobotMap.Field.FIELD);
+    // SmartDashboard.putBoolean("isRed", Trajectories.isFlipped());
+
     CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
     CommandScheduler.getInstance()
         .setDefaultCommand(AngledElevator.getInstance(), new ElevatorManual());
+    
+    
     autonChooser = new SendableChooser<String>();
     autonChooser.setDefaultOption("Middle And Cross Path", "Middle And Cross Path");
     autonChooser.addOption("Middle Path", "Middle Path");
@@ -52,25 +56,33 @@ public class Robot extends TimedRobot {
     autonChooser.addOption("Top Path", "Top Path");
     autonChooser.addOption("No auton", "No auton");
     SmartDashboard.putData("Auton Chooser", autonChooser);
+    // SmartDashboard.putData("Rotation PID Controller", Drivetrain.getInstance().thetaController);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     RobotMap.Field.FIELD.setRobotPose(Drivetrain.getInstance().getPoseEstimatorPose2d());
-    SmartDashboard.putString("Auton running:", autonChooser.getSelected());
-    SmartDashboard.putData(Drivetrain.getInstance());
-    SmartDashboard.putData(Claw.getInstance());
-    SmartDashboard.putData(AngledElevator.getInstance());
+
+    SmartDashboard.putString("Current Auton:", autonChooser.getSelected());
+    SmartDashboard.putData("Rotation PID COntroller thing", Drivetrain.getInstance().thetaController);
+
+    // SmartDashboard.putNumber("kP",);
+    // SmartDashboard.putNumber("kI", Drivetrain.getInstance().thetaController.getI());
+    // SmartDashboard.putNumber("kD", Drivetrain.getInstance().thetaController.getD());
+
+    // SmartDashboard.putData(Drivetrain.getInstance());
+    // SmartDashboard.putData(Claw.getInstance());
+  
     NetworkTableInstance.getDefault().flushLocal();
     NetworkTableInstance.getDefault().flush();
   }
 
   @Override
   public void autonomousInit() {
-    SmartDashboard.putNumber("X kP", RobotMap.SwervePositionController.X_kP);
-    SmartDashboard.putNumber("Y kP", RobotMap.SwervePositionController.Y_kP);
-    SmartDashboard.putNumber("Theta kP", RobotMap.SwervePositionController.THETA_kP);
+    // SmartDashboard.putNumber("X kP", RobotMap.SwervePositionController.X_kP);
+    // SmartDashboard.putNumber("Y kP", RobotMap.SwervePositionController.Y_kP);
+    // SmartDashboard.putNumber("Theta kP", RobotMap.SwervePositionController.THETA_kP);
     switch (autonChooser.getSelected()) {
       case "Top Path":
         Drivetrain.getInstance()
@@ -124,7 +136,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
+    AngledElevator.getInstance().setkP(SmartDashboard.getNumber("kP", RobotMap.AngledElevator.kP));
+    AngledElevator.getInstance().setkG(SmartDashboard.getNumber("kG", RobotMap.AngledElevator.kG));
+    Drivetrain.getInstance().setTranslationkP(SmartDashboard.getNumber("TranslationkP", RobotMap.SwerveModule.TRANSLATION_KP));
   }
 
   @Override

@@ -19,6 +19,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.CameraPoseEstimation;
 import frc.robot.util.SwerveModule;
@@ -33,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
 
     private SwerveDriveKinematics kinematics; // converts chassis speeds (x, y, theta) to module states (speed, angle)
 
-    private static ProfiledPIDController thetaController = new ProfiledPIDController(RobotMap.Drivetrain.THETA_P, RobotMap.Drivetrain.THETA_I, RobotMap.Drivetrain.THETA_D, new Constraints(4, 3.5));
+    public ProfiledPIDController thetaController = new ProfiledPIDController(RobotMap.Drivetrain.THETA_P, RobotMap.Drivetrain.THETA_I, RobotMap.Drivetrain.THETA_D, new Constraints(4, 3.5));
 
     // Estimates the robot's pose through encoder (state) and vision measurements;
     private SwerveDrivePoseEstimator poseEstimator;
@@ -44,6 +45,10 @@ public class Drivetrain extends SubsystemBase {
 
     private Drivetrain() {
         // initialize swerve modules
+        // SmartDashboard.putNumber("TranslationkP", RobotMap.SwerveModule.TRANSLATION_KP);
+        // SmartDashboard.putNumber("TranslationkI", RobotMap.SwerveModule.TRANSLATION_KI);
+        // SmartDashboard.putNumber("TranslationkD", RobotMap.SwerveModule.TRANSLATION_KD);
+        // SmartDashboard.putNumber("TranslationkP", RobotMap.SwerveModule.ROTATION_KP);
         swerveModules =
             new SwerveModule[] {
                 new SwerveModule(0), new SwerveModule(1), new SwerveModule(2), new SwerveModule(3)
@@ -62,6 +67,10 @@ public class Drivetrain extends SubsystemBase {
 
         // sets how much error to allow on theta controller
         thetaController.setTolerance(RobotMap.Drivetrain.MAX_ERROR_YAW);
+        // SmartDashboard.putData("Rotation PID", thetaController);
+        // SmartDashboard.putNumber("kP", thetaController.getP());
+        // SmartDashboard.putNumber("kI", thetaController.getI());
+        // SmartDashboard.putNumber("kD", thetaController.getD());
 
         // initial pose (holds the x, y, heading)
         Pose2d initalPoseMeters = new Pose2d();
@@ -109,7 +118,7 @@ public class Drivetrain extends SubsystemBase {
      * Returns yaw of pigeon in degrees (heading of robot)
      */
     public double getHeading() {
-        SmartDashboard.putNumber("pigeon heading", pigeon.getYaw());
+        // SmartDashboard.putNumber("Pigeon Heading", pigeon.getYaw());
         return pigeon.getYaw();
     }
 
@@ -118,6 +127,34 @@ public class Drivetrain extends SubsystemBase {
      */
     public double getPitch() {
         return pigeon.getPitch();
+    }
+
+    public void setTranslationkP(double newkP) {
+        SmartDashboard.putNumber("newTranslationkP", newkP);
+        for(int i = 0; i<4;i++) {
+            swerveModules[i].setTranslationkP(newkP);
+        }
+    }
+
+    public void setTranslationkI(double newkI) {
+        SmartDashboard.putNumber("newTranslationkI", newkI);
+        for(int i = 0; i<4;i++) {
+            swerveModules[i].setTranslationkP(newkI);
+        }
+    }
+
+    public void setTranslationkD(double newkD) {
+        SmartDashboard.putNumber("newTranslationkD", newkD);
+        for(int i = 0; i<4;i++) {
+            swerveModules[i].setTranslationkP(newkD);
+        }
+    }
+
+    public void setRotationkP(double newkP) {
+        SmartDashboard.putNumber("newTranslationkP", newkP);
+        for(int i = 0; i<4;i++) {
+            swerveModules[i].setTranslationkP(newkP);
+        }
     }
 
     /**
@@ -185,9 +222,9 @@ public class Drivetrain extends SubsystemBase {
     // public double alignToTarget(double omega) {
     //     var result = CameraPoseEstimation.getInstance().getCamera().getLatestResult();
     //     if (result.hasTargets()) {
-    //         omega =
-    //             -thetaController.calculate(result.getBestTarget().getYaw() - RobotMap.Drivetrain.OFFSET);
-    //         setPreviousHeading(getHeading());
+    //     omega =
+    //     -thetaController.calculate(result.getBestTarget().getYaw() - RobotMap.Drivetrain.OFFSET);
+    // setPreviousHeading(getHeading());
     //     }
     //     return omega;
     //   }
@@ -242,23 +279,27 @@ public class Drivetrain extends SubsystemBase {
         updatePose();
     }
 
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("Drivetrain");
-        builder.setActuator(true);
-        builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
-        builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
-        builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
 
-        for (int i = 0; i < 4; i++) {
-        builder.addDoubleProperty(
-            SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
-        builder.addDoubleProperty(
-            SwerveModule.swerveIDToName(i) + " Translation Position",
-            swerveModules[i]::getWheelPosition,
-            null);
-        builder.addDoubleProperty(
-            SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
-        }
-    }
+    // @Override
+    // public void initSendable(SendableBuilder builder) {
+    //     builder.setSmartDashboardType("Drivetrain");
+    //     builder.setActuator(true);
+    //     builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
+        
+    //     // Pigeon
+    //     builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
+    //     builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
+
+    //     for (int i = 0; i < 4; i++) {
+    //         // Drivetrain
+    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
+    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Position", swerveModules[i]::getWheelPosition, null);
+
+    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
+
+    //         // Voltage
+    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Voltage", swerveModules[i]::getVoltageTranslation, null);
+    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Rotation Voltage", swerveModules[i]::getVoltageRotation, null);
+    //     }
+    // }
 }

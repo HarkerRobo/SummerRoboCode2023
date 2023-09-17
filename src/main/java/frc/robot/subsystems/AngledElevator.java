@@ -3,10 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
@@ -27,6 +29,8 @@ public class AngledElevator extends SubsystemBase {
         
         // initialize 
         limitSwitch = new DigitalInput(RobotMap.AngledElevator.LIMIT_SWITCH_ID);
+
+        // SmartDashboard.putData();
         initElevator();
     }
 
@@ -35,14 +39,20 @@ public class AngledElevator extends SubsystemBase {
      * Initialized motors for AngledElevator
      */
     private void initElevator() {
-        addChild("Master Motor", master);
-        addChild("Follower Motor", follower);
-        addChild("Limit Switch", limitSwitch);
+        // addChild("Master Motor", master);
+        // addChild("Follower Motor", follower);
+        // addChild("Limit Switch", limitSwitch);
 
         // make follower motor follow master motor
         follower.follow(master);
 
         master.config_kP(Constants.SLOT_INDEX, RobotMap.AngledElevator.kP);
+        SmartDashboard.putNumber("ElevatorkG", RobotMap.AngledElevator.kG);
+        SmartDashboard.putNumber("ElevatorkP", RobotMap.AngledElevator.kP);
+        // masterController = new PIDController(RobotMap.AngledElevator.kP, 0, 0);
+        // SmartDashboard.putData("test controller", masterController);
+        // SmartDashboard.putNumber("kP", masterController.getP());
+
 
         master.configForwardSoftLimitEnable(true);
         master.configReverseSoftLimitEnable(true);
@@ -65,9 +75,9 @@ public class AngledElevator extends SubsystemBase {
 
     public void moveToPosition(double desiredPosition) {
         master.set(ControlMode.MotionMagic, desiredPosition, DemandType.ArbitraryFeedForward, RobotMap.AngledElevator.kG);
-        SmartDashboard.putNumber("Elevator Desired", desiredPosition);
+        // SmartDashboard.putNumber("Elevator Desired", desiredPosition);
     }
-
+    
     /**
      * @param   position
      * @return  set the desired position to some position
@@ -75,6 +85,19 @@ public class AngledElevator extends SubsystemBase {
 
     public void setDesiredPosition(double position) {
         this.desiredPosition = position;
+    }
+    // public void setZeroSpeed(double newSpeed) {
+    //     SmartDashboard.putNumber("newSpeed", RobotMap.ZeroElevator.ZERO_SPEED);
+    //     RobotMap.ZeroElevator.ZERO_SPEED = newSpeed;
+    // }
+
+    public void setkP(double newkP) {
+        RobotMap.AngledElevator.kP = newkP;
+        master.config_kP(Constants.SLOT_INDEX, RobotMap.AngledElevator.kP);
+    }
+
+    public void setkG(double newkG) {
+        RobotMap.AngledElevator.kG = newkG;
     }
 
     /**
@@ -101,6 +124,15 @@ public class AngledElevator extends SubsystemBase {
 
     public double getPosition() {
         return master.getSelectedSensorPosition();
+    }
+
+    /**
+     * returns the output voltage of motor
+     * 
+     * @return applied voltage to motor in volts
+     */
+    public double getVoltage() {
+        return master.getMotorOutputVoltage();
     }
 
     /**
@@ -157,11 +189,20 @@ public class AngledElevator extends SubsystemBase {
      * Smart Dashboard Function
      */
 
+     @Override public void periodic() {
+        SmartDashboard.putNumber("Desired Position", desiredPosition);
+     }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Elevator");
         builder.setActuator(true);
         builder.setSafeState(() -> setElevatorPower(0));
+
+        // Elevator
         builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
+
+        // Voltage
+        // builder.addDoubleProperty("Motor Voltage", this::getVoltage, null);
     }
 }
