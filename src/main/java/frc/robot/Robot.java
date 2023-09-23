@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -21,6 +23,7 @@ import frc.robot.commands.elevator.ElevatorManual;
 import frc.robot.subsystems.AngledElevator;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.CameraPoseEstimation;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -41,7 +44,7 @@ public class Robot extends TimedRobot {
     LiveWindow.setEnabled(true);
     LiveWindow.enableAllTelemetry();
     SmartDashboard.putData(RobotMap.Field.FIELD);
-    SmartDashboard.putBoolean("red", Trajectories.isFlipped());
+    // SmartDashboard.putBoolean("red", Trajectories.isFlipped());
     CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
     CommandScheduler.getInstance()
         .setDefaultCommand(AngledElevator.getInstance(), new ElevatorManual());
@@ -52,6 +55,7 @@ public class Robot extends TimedRobot {
     autonChooser.addOption("Top Path", "Top Path");
     autonChooser.addOption("No auton", "No auton");
     SmartDashboard.putData("Auton Chooser", autonChooser);
+    CameraPoseEstimation.getInstance().getCamera().setDriverMode(true);
   }
 
   @Override

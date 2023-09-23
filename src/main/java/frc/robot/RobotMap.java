@@ -36,7 +36,7 @@ public final class RobotMap {
         // Pigeon ID
         public static final int PIGEON_ID = 1;
 
-        public static final double PIGEON_kP = 1.1;
+        public static final double PIGEON_kP = 0.62;
 
         public static final double MIN_OUTPUT = 0.01;
 
@@ -125,7 +125,7 @@ public final class RobotMap {
         public static final double SPEED_MULTIPLIER = 1.0;
         public static final double ROT_MULITPLIER = 0.25;
         public static final double CLAMP_MULTIPLIER = 0.7;
-        public static final double MAX_ACCELERATION = 35;
+        public static final double MAX_ACCELERATION = 15;
         public static final double MAX_ACCELERATION_EXTENDED = 6.5;
     }
 
