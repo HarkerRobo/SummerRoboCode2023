@@ -39,30 +39,35 @@ public class OI {
 
     private void initBindings() {
         // set Right DPad Button to toggle claw
-        driver.getRightDPadButton().onTrue(new ToggleClaw());
+        // driver.getRightDPadButton().onTrue(new ToggleClaw());
 
         // X = HP, Y = High, B = Middle, A = Lo
-        driver.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
-        driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
+        // driver.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
+        // driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
         
-        .POSITIONS[2]));
-        driver.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
-        driver.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
+        // .POSITIONS[2]));
+        // driver.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
+        // driver.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
 
         // set LeftBumper Button to Align Pitch
         driver.getLeftBumper().whileTrue(new AlignPitch());
 
         // set Start Button to Align Yaw (Reset Yaw)
-        driver.getButtonStart().onTrue(new InstantCommand(() -> {
+        driver.getRightBumper().onTrue(new InstantCommand(() -> {
             Drivetrain.getInstance().setYaw(0);
         }));
 
         // set Select Button to Zero Elevator
-        driver.getButtonSelect().onTrue(new ZeroElevator());
+        // driver.getButtonSelect().onTrue(new ZeroElevator());
 
-        // set X button on OPERATOR controller to Zero Elevator
-        operator.getButtonX().onTrue(new ZeroElevator());
+        operator.getRightDPadButton().onTrue(new ToggleClaw());
+        operator.getRightBumper().onTrue(new ZeroElevator());
         // set A button on OPERATOR controller to set Elevator to POSITION LOW
+        operator.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
+        operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
+        
+        .POSITIONS[2]));
+        operator.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
         operator.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
     }
 
