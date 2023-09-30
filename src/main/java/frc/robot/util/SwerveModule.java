@@ -100,7 +100,7 @@ public class SwerveModule {
         var adjusted = targetAngle + currentAngle - remainder;
 
         var speed = desiredState.speedMetersPerSecond;
-        SmartDashboard.putNumber(swerveIDToName(ID) + "Desired Translation Speed", speed);
+        // SmartDashboard.putNumber(swerveIDToName(ID) + "Desired Translation Speed", speed);
         
         if(adjusted - currentAngle > Math.PI) {
             adjusted -= Math.PI * 2;

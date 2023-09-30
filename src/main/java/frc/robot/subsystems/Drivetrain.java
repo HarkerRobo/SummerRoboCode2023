@@ -118,7 +118,7 @@ public class Drivetrain extends SubsystemBase {
      * Returns yaw of pigeon in degrees (heading of robot)
      */
     public double getHeading() {
-        // SmartDashboard.putNumber("Pigeon Heading", pigeon.getYaw());
+        // SmartDashboard.putNumber("pigeon heading", pigeon.getYaw());
         return pigeon.getYaw();
     }
 
@@ -279,27 +279,23 @@ public class Drivetrain extends SubsystemBase {
         updatePose();
     }
 
+//     @Override
+//     public void initSendable(SendableBuilder builder) {
+//         builder.setSmartDashboardType("Drivetrain");
+//         builder.setActuator(true);
+//         builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
+//         builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
+//         builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
 
-    // @Override
-    // public void initSendable(SendableBuilder builder) {
-    //     builder.setSmartDashboardType("Drivetrain");
-    //     builder.setActuator(true);
-    //     builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
-        
-    //     // Pigeon
-    //     builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
-    //     builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
-
-    //     for (int i = 0; i < 4; i++) {
-    //         // Drivetrain
-    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
-    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Position", swerveModules[i]::getWheelPosition, null);
-
-    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
-
-    //         // Voltage
-    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Translation Voltage", swerveModules[i]::getVoltageTranslation, null);
-    //         builder.addDoubleProperty(SwerveModule.swerveIDToName(i) + " Rotation Voltage", swerveModules[i]::getVoltageRotation, null);
-    //     }
-    // }
+//         for (int i = 0; i < 4; i++) {
+//         builder.addDoubleProperty(
+//             SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
+//         builder.addDoubleProperty(
+//             SwerveModule.swerveIDToName(i) + " Translation Position",
+//             swerveModules[i]::getWheelPosition,
+//             null);
+//         builder.addDoubleProperty(
+//             SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
+//         }
+//     }
 }

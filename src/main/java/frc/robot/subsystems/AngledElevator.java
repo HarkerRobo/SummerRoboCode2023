@@ -75,7 +75,7 @@ public class AngledElevator extends SubsystemBase {
 
     public void moveToPosition(double desiredPosition) {
         master.set(ControlMode.MotionMagic, desiredPosition, DemandType.ArbitraryFeedForward, RobotMap.AngledElevator.kG);
-        // SmartDashboard.putNumber("Elevator Desired", desiredPosition);
+      // SmartDashboard.putNumber("Elevator Desired", desiredPosition);
     }
     
     /**
@@ -189,20 +189,11 @@ public class AngledElevator extends SubsystemBase {
      * Smart Dashboard Function
      */
 
-     @Override public void periodic() {
-        SmartDashboard.putNumber("Desired Position", desiredPosition);
-     }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("Elevator");
-        builder.setActuator(true);
-        builder.setSafeState(() -> setElevatorPower(0));
-
-        // Elevator
-        builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
-
-        // Voltage
-        // builder.addDoubleProperty("Motor Voltage", this::getVoltage, null);
-    }
+    // @Override
+    // public void initSendable(SendableBuilder builder) {
+    //     builder.setSmartDashboardType("Elevator");
+    //     builder.setActuator(true);
+    //     builder.setSafeState(() -> setElevatorPower(0));
+    //     builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
+    // }
 }
