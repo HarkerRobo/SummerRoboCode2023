@@ -59,7 +59,6 @@ public class OI {
 
         // set Select Button to Zero Elevator
         // driver.getButtonSelect().onTrue(new ZeroElevator());
-
         operator.getRightDPadButton().onTrue(new ToggleClaw());
         operator.getRightBumper().onTrue(new ZeroElevator());
         // set A button on OPERATOR controller to set Elevator to POSITION LOW

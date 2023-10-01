@@ -90,7 +90,7 @@ public class Autons {
     public static final SequentialCommandGroup noAuton = new SequentialCommandGroup(
             new ZeroElevator(),
             new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]), 
+            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
             new OpenClaw(),
             new MoveToPosition(0));
 }

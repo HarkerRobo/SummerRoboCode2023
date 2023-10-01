@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import java.beans.FeatureDescriptor;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -13,13 +11,11 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
-import harkerrobolib.wrappers.HSFalcon;
+
 
 public class SwerveModule {
     //motors on the swerve modules
@@ -71,7 +67,7 @@ public class SwerveModule {
         translation.config_kI(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KI);
         translation.config_kD(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KD);
         translation.enableVoltageCompensation(true); //disables voltage compensation 
-        translation.configVelocityMeasurementWindow(32); //number of samples measured 
+        translation.configVelocityMeasurementWindow(RobotMap.SwerveModule.VELOCITY_WINDOW); //number of samples measured 
         translation.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_10Ms);
         canCoder.configFactoryDefault();
         canCoder.clearStickyFaults();
