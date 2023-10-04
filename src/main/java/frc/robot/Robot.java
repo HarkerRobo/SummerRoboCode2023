@@ -55,7 +55,6 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
         CommandScheduler.getInstance()
                 .setDefaultCommand(AngledElevator.getInstance(), new ElevatorManual());
-        CommandScheduler.getInstance().setDefaultCommand(Claw.getInstance(), new ToggleClaw());
         autonChooser = new SendableChooser<String>();
         autonChooser.setDefaultOption("Middle And Cross Path", "Middle And Cross Path");
         autonChooser.addOption("Middle Path", "Middle Path");
