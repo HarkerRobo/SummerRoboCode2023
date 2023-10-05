@@ -16,22 +16,8 @@ public class Claw extends SubsystemBase {
         addChild("Claw", claw);
     }
 
-    // Release Claw (open)
-    public void releaseClaw() {
-        claw.set(Value.kReverse);
-    }
-
-    // Pinch claw (close)
-    public void pinchClaw() {
-        claw.set(Value.kForward);
-    }
-
-    // Toggle Claw based on state
-    public void toggleClaw() {
-        if (claw.get() == DoubleSolenoid.Value.kForward)
-            releaseClaw();
-        else
-            pinchClaw();
+    public DoubleSolenoid getClaw() {
+        return claw;
     }
 
     public static Claw getInstance() {

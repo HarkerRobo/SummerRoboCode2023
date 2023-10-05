@@ -175,7 +175,7 @@ public final class RobotMap {
     }
 
     public static final class ZeroElevator {
-        public static final double ZERO_SPEED = -0.45;
+        public static final double ZERO_SPEED = -0.37;
     }
 
     // AUTON CONSTANTS
