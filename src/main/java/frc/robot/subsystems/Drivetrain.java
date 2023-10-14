@@ -6,6 +6,8 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.util.CameraPoseEstimation;
 import frc.robot.util.SwerveModule;
 
 public class Drivetrain extends SubsystemBase {
@@ -31,6 +32,8 @@ public class Drivetrain extends SubsystemBase {
 
     private Pigeon2 pigeon;
     private double prevHeading;
+
+    private Debouncer debouncer;
 
     private SwerveDriveKinematics kinematics; // converts chassis speeds (x, y, theta) to module states (speed, angle)
 
@@ -83,6 +86,8 @@ public class Drivetrain extends SubsystemBase {
             initalPoseMeters,
             stateStdDevs,
             visionStdDevs);
+
+        debouncer = new Debouncer(0.4, DebounceType.kRising);
     }
 
     /*
@@ -104,7 +109,7 @@ public class Drivetrain extends SubsystemBase {
      * @return      adjusted rotational speed
      */
     public double adjustPigeon(double omega) {
-        if (Math.abs(omega) <= RobotMap.Drivetrain.MIN_OUTPUT) {
+        if (debouncer.calculate(Math.abs(omega) <= RobotMap.Drivetrain.MIN_OUTPUT)) {
             omega = -RobotMap.Drivetrain.PIGEON_kP * (prevHeading - getHeading());
         }
         else {
@@ -112,7 +117,7 @@ public class Drivetrain extends SubsystemBase {
         }
     
         return omega;
-      }
+    }
 
     /*
      * Returns yaw of pigeon in degrees (heading of robot)
@@ -279,23 +284,23 @@ public class Drivetrain extends SubsystemBase {
         updatePose();
     }
 
-//     @Override
-//     public void initSendable(SendableBuilder builder) {
-//         builder.setSmartDashboardType("Drivetrain");
-//         builder.setActuator(true);
-//         builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
-//         builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
-//         builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
+    // @Override
+    // public void initSendable(SendableBuilder builder) {
+    //     builder.setSmartDashboardType("Drivetrain");
+    //     builder.setActuator(true);
+    //     builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
+    //     builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
+    //     builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
 
-//         for (int i = 0; i < 4; i++) {
-//         builder.addDoubleProperty(
-//             SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
-//         builder.addDoubleProperty(
-//             SwerveModule.swerveIDToName(i) + " Translation Position",
-//             swerveModules[i]::getWheelPosition,
-//             null);
-//         builder.addDoubleProperty(
-//             SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
-//         }
-//     }
+    //     for (int i = 0; i < 4; i++) {
+    //     builder.addDoubleProperty(
+    //         SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
+    //     builder.addDoubleProperty(
+    //         SwerveModule.swerveIDToName(i) + " Translation Position",
+    //         swerveModules[i]::getWheelPosition,
+    //         null);
+    //     builder.addDoubleProperty(
+    //         SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
+    //     }
+    // }
 }

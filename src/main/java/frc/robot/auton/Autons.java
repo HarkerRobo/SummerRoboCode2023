@@ -44,6 +44,22 @@ public class Autons {
                     () -> Rotation2d.fromDegrees(180)),
             new AlignPitch());
 
+        public static final SequentialCommandGroup middleAndCrossMidCube = new SequentialCommandGroup(
+            new ZeroElevator(),
+            new CloseClaw(),
+            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]),
+            new OpenClaw(),
+            new MoveToPosition(0)
+                    .alongWith(
+                            new SwervePositionController(
+                                    Trajectories.middleAndCross1,
+                                    () -> Rotation2d.fromDegrees(180),
+                                    () -> Rotation2d.fromDegrees(180))),
+            new SwervePositionController(
+                    Trajectories.middleAndCross2,
+                    () -> Rotation2d.fromDegrees(180),
+                    () -> Rotation2d.fromDegrees(180)),
+            new AlignPitch());
     /**
      * bottomPath : Grab game piece from bot, drop off at node, and move back out of
      * community zone
@@ -90,7 +106,7 @@ public class Autons {
     public static final SequentialCommandGroup noAuton = new SequentialCommandGroup(
             new ZeroElevator(),
             new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]), 
+            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
             new OpenClaw(),
             new MoveToPosition(0));
 }

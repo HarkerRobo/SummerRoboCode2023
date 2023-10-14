@@ -34,6 +34,9 @@ public class SwerveManual extends IndefiniteCommand {
             MathUtil.mapJoystickOutput(
                 OI.getInstance().getDriver().getRightX(), Constants.JOYSTICK_DEADBAND);
 
+
+        omega = Drivetrain.getInstance().adjustPigeon(omega);
+
         // Scaling velocities based on multipliers
         vx = scaleValues(vx, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
         vy = scaleValues(vy, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
@@ -43,22 +46,21 @@ public class SwerveManual extends IndefiniteCommand {
         vy = limitAcceleration(vy, prevvy);
         vx = limitAcceleration(vx, prevvx);
 
-        // sets velocities to zero if robot is not visibly moving
-        if (isRobotStill()) {
-            vx = 0;
-            vy = 0;
-        }
-
-        Drivetrain.getInstance().adjustPigeon(omega);
-
+        
         // aligns to nearest target
         // if (OI.getInstance().getDriver().getRightBumperState()) {
         //     omega = Drivetrain.getInstance().alignToTarget(omega);
         // }
 
-        // if rotational velocity is very small
-        if (Math.abs(omega) < RobotMap.Drivetrain.MIN_OUTPUT) {
-            omega = 0.0001;
+        // sets velocities to zero if robot is not visibly moving
+        if (isRobotStill()) {
+            vx = 0;
+            vy = 0;
+
+            // if rotational velocity is very small
+            if (Math.abs(omega) < RobotMap.Drivetrain.MIN_OUTPUT) {
+                omega = 0.0001;
+            }
         }
 
         Drivetrain.getInstance()
@@ -80,6 +82,7 @@ public class SwerveManual extends IndefiniteCommand {
                     * Constants.ROBOT_LOOP;
             // previous velocity + direction of movement (+/-) * acceleration * time (a=v/t)
         }
+
         return value;
     }
 
