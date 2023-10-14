@@ -13,33 +13,12 @@ public class Claw extends SubsystemBase {
     private DoubleSolenoid claw;
 
     private Claw() {
-        claw = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotMap.Claw.CLAW_FORWARD_ID, RobotMap.Claw.CLAW_REVERSE_ID);
-        // addChild("Claw", claw);
+        claw = new DoubleSolenoid(RobotMap.Claw.PH_ID, PneumaticsModuleType.REVPH, RobotMap.Claw.CLAW_FORWARD_ID, RobotMap.Claw.CLAW_REVERSE_ID);
+        addChild("Claw", claw);
     }
 
-    // Release Claw (open)
-    public void releaseClaw() {
-        claw.set(Value.kReverse);
-    }
-
-    // Pinch claw (close)
-    public void pinchClaw() {
-        claw.set(Value.kForward);
-    }
-
-    // Toggle Claw based on state
-    public void toggleClaw() {
-        if (claw.get() == DoubleSolenoid.Value.kForward)
-            releaseClaw();
-        else
-            pinchClaw();
-    }
-
-    public boolean getState() {
-        if (claw.get() == DoubleSolenoid.Value.kForward)
-            return true;
-        
-        return false;
+    public DoubleSolenoid getClaw() {
+        return claw;
     }
 
     public static Claw getInstance() {

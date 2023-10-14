@@ -13,16 +13,27 @@ import frc.robot.RobotMap.SwervePositionController;
 import frc.robot.subsystems.Drivetrain;
 
 public class Telemetry {
-    NetworkTable table; 
+    NetworkTable table;
     NetworkTableInstance inst;
-    public Telemetry(){
+
+    NetworkTable swervemodule;
+    NetworkTable drivetrain;
+    NetworkTable elevator;
+    NetworkTable alignpitch;
+    NetworkTable swervepositioncontroller;
+
+    public Telemetry() {
         inst = NetworkTableInstance.getDefault();
-        table = inst.getTable("datatable");
+        table = inst.getTable("Main use This!!");
+
+        swervemodule = table.getSubTable("Swerve Module");
+        drivetrain = table.getSubTable("Drivetrain");
+        elevator = table.getSubTable("Elevator");
+        alignpitch = table.getSubTable("Align Pitch");
+        swervepositioncontroller = table.getSubTable("SwervePositionController");
     }
 
-    public void putSwerveModule(){
-        NetworkTable swervemodule = table.getSubTable("Swerve Module");
-
+    public void putSwerveModule() {
         NetworkTableEntry rotationkP = swervemodule.getEntry("Rotation kP");
         rotationkP.setDouble(RobotMap.SwerveModule.ROTATION_KP);
 
@@ -44,14 +55,13 @@ public class Telemetry {
         NetworkTableEntry translationkA = swervemodule.getEntry("Translation kA");
         translationkA.setDouble(RobotMap.SwerveModule.TRANSLATION_KA);
     }
-    public void putDrivetrain(){
-        NetworkTable drivetrain = table.getSubTable("Drivetrain");
+
+    public void putDrivetrain() {
         NetworkTableEntry kP = drivetrain.getEntry("Pigeon kP");
         kP.setDouble(RobotMap.Drivetrain.PIGEON_kP);
     }
-    public void putElevator(){
-        NetworkTable elevator = table.getSubTable("Elevator");
 
+    public void putElevator() {
         NetworkTableEntry kP = elevator.getEntry("kP");
         kP.setDouble(RobotMap.AngledElevator.kP);
 
@@ -59,9 +69,7 @@ public class Telemetry {
         kG.setDouble(RobotMap.AngledElevator.kG);
     }
 
-    public void putAlignPitch(){
-        NetworkTable alignpitch = table.getSubTable("Align Pitch");
-
+    public void putAlignPitch() {
         NetworkTableEntry kP = alignpitch.getEntry("kP");
         kP.setDouble(RobotMap.AlignPitch.kP);
 
@@ -72,9 +80,7 @@ public class Telemetry {
         kD.setDouble(RobotMap.AlignPitch.kD);
     }
 
-    public void putSwervePositionController(){
-        NetworkTable swervepositioncontroller = table.getSubTable("SwervePositionController");
-
+    public void putSwervePositionController() {
         NetworkTableEntry X_kP = swervepositioncontroller.getEntry("X_kP");
         X_kP.setDouble(RobotMap.SwervePositionController.X_kP);
 

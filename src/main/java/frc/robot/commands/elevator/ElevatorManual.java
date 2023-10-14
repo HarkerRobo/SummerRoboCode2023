@@ -16,10 +16,10 @@ public class ElevatorManual extends IndefiniteCommand {
          * else if DRIVER presses the Down DPad Button, Move the elevator down by 500 steps
          */
         
-        if (OI.getInstance().getDriver().getUpDPadButtonState()) {
+        if (OI.getInstance().getOperator().getUpDPadButtonState()) {
             AngledElevator.getInstance().setDesiredPosition(AngledElevator.getInstance().getPosition() + 500);
         }
-        else if (OI.getInstance().getDriver().getDownDPadButtonState())  {
+        else if (OI.getInstance().getOperator().getDownDPadButtonState())  {
             AngledElevator.getInstance().setDesiredPosition(AngledElevator.getInstance().getPosition() - 500);
         }
 
