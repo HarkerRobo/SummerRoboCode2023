@@ -69,7 +69,7 @@ public class Trajectories {
                     new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180)),
                     new Pose2d(6.5, 2.75, Rotation2d.fromDegrees(180))),
             1.5,
-            0.7,
+            1.0,
             0.0,
             0.0,
             true);

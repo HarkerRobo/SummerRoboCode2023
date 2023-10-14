@@ -16,7 +16,5 @@ public class ToggleClaw extends InstantCommand{
         else
             Claw.getInstance().getClaw().set(DoubleSolenoid.Value.kForward);
     }
-
-    
-    
 }
+

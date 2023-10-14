@@ -12,7 +12,7 @@ public class Claw extends SubsystemBase {
     private DoubleSolenoid claw;
 
     private Claw() {
-        claw = new DoubleSolenoid(PneumaticsModuleType.REVPH, RobotMap.Claw.CLAW_FORWARD_ID, RobotMap.Claw.CLAW_REVERSE_ID);
+        claw = new DoubleSolenoid(RobotMap.Claw.PH_ID, PneumaticsModuleType.REVPH, RobotMap.Claw.CLAW_FORWARD_ID, RobotMap.Claw.CLAW_REVERSE_ID);
         addChild("Claw", claw);
     }
 

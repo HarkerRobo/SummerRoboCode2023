@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
         autonChooser = new SendableChooser<String>();
         autonChooser.setDefaultOption("Middle And Cross Path", "Middle And Cross Path");
         autonChooser.addOption("Middle Path", "Middle Path");
+        autonChooser.addOption("Middle and Cross (Mid Cube)", "Middle And Cross Path with Middle Cube");
         autonChooser.addOption("Bottom Path", "Bottom Path");
         autonChooser.addOption("Top Path", "Top Path");
         autonChooser.addOption("No auton", "No auton");
@@ -127,6 +128,11 @@ public class Robot extends TimedRobot {
                 Drivetrain.getInstance()
                         .setPose(Trajectories.apply(new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180))));
                 Autons.middlePath.schedule();
+                break;
+            case "Middle And Cross Path with Middle Cube":
+                Drivetrain.getInstance()
+                        .setPose(Trajectories.apply(new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180))));
+                Autons.middleAndCrossMidCube.schedule();
                 break;
             case "No auton":
                 Drivetrain.getInstance()

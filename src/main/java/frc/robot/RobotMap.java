@@ -112,7 +112,7 @@ public final class RobotMap {
 
     public static final class AlignPitch {
         // PID values for the pitch controller
-        public static final double kP = 0.014; // no bumpers - 0.0187, with - 0.017
+        public static final double kP = 0.016; // no bumpers - 0.0187, with - 0.017
         public static final double kI = 0.0;
         public static final double kD = 0;
 
@@ -125,7 +125,7 @@ public final class RobotMap {
 
     public static final class SwerveManual {
         // Speed multipliers
-        public static final double SPEED_MULTIPLIER = 0.9;
+        public static final double SPEED_MULTIPLIER = 1.0;
         public static final double ROT_MULITPLIER = 0.9;
         public static final double CLAMP_MULTIPLIER = 0.7;
         public static final double MAX_ACCELERATION = 15;
@@ -134,8 +134,9 @@ public final class RobotMap {
 
     // CLAW
     public static final class Claw {
-        public static final int CLAW_FORWARD_ID = 0;
-        public static final int CLAW_REVERSE_ID = 1;
+        public static final int PH_ID = 1;
+        public static final int CLAW_FORWARD_ID = 7;
+        public static final int CLAW_REVERSE_ID = 6;
     }
 
     // ELEVATOR
@@ -157,7 +158,7 @@ public final class RobotMap {
         public static final boolean FOLLOWER_INVERTED = false; // TODO
 
         // Thresholds for soft-limits
-        public static final double FORWARD_LIMIT = 40000;
+        public static final double FORWARD_LIMIT = 42500;
         public static final double REVERSE_LIMIT = 0;
 
         // Time for the motor to go from neutral to full
@@ -165,7 +166,7 @@ public final class RobotMap {
 
         // POSITIONS: Low, Middle, High, Human Player (HP)
         public static double[] POSITIONS = {
-                10018, 27000, 39500, 28500
+                10018, 27000, 40000, 29000
         };
 
         // HORIZONTAL Offsets: Middle, High, Human Player (HP)

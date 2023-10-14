@@ -60,13 +60,12 @@ public class OI {
 
         // set Select Button to Zero Elevator
         // driver.getButtonSelect().onTrue(new ZeroElevator());
-        operator.getRightDPadButton().debounce(0.13, DebounceType.kRising).onTrue(new ToggleClaw());
+        //operator.getRightDPadButton().debounce(0.13, DebounceType.kRising).onTrue(new ToggleClaw());
+        operator.getRightDPadButton().onTrue(new ToggleClaw());
         operator.getRightBumper().onTrue(new ZeroElevator());
         // set A button on OPERATOR controller to set Elevator to POSITION LOW
         operator.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
-        operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
-        
-        .POSITIONS[2]));
+        operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]));
         operator.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
         operator.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
     }
