@@ -63,6 +63,7 @@ public class OI {
         //operator.getRightDPadButton().debounce(0.13, DebounceType.kRising).onTrue(new ToggleClaw());
         operator.getRightDPadButton().onTrue(new ToggleClaw());
         operator.getRightBumper().onTrue(new ZeroElevator());
+        operator.getLeftBumper().onTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[4]));
         // set A button on OPERATOR controller to set Elevator to POSITION LOW
         operator.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
         operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]));

@@ -164,9 +164,9 @@ public final class RobotMap {
         // Time for the motor to go from neutral to full
         public static final double RAMP_TIME = 0.01;
 
-        // POSITIONS: Low, Middle, High, Human Player (HP)
+        // POSITIONS: Low, Middle, High, Human Player (HP), Fake Zero
         public static double[] POSITIONS = {
-                10018, 27000, 40000, 29000
+                10018, 29300, 41000, 28800, 5000
         };
 
         // HORIZONTAL Offsets: Middle, High, Human Player (HP)
