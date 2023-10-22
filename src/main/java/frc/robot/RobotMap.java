@@ -54,7 +54,7 @@ public final class RobotMap {
         public static final int[] TRANSLATION_IDS = {1, 2, 3, 4};
 
         // translation motors inverted
-        public static final boolean[] TRANSLATION_INVERTS = {false, false, false, false};
+        public static final boolean[] TRANSLATION_INVERTS = {false, false, false, true};
 
         // ids for rotation motors
         public static final int[] ROTATION_IDS = {5, 6, 7, 8};
@@ -66,7 +66,7 @@ public final class RobotMap {
         public static final int[] CAN_CODER_ID = {9, 10, 11, 12};
 
         // offsets of cancoders of each swerve module
-        public static final double[] CAN_CODER_OFFSETS = {323.613 - 180, 244.951 - 180, 266.572 + 180, 91.406};
+        public static final double[] CAN_CODER_OFFSETS = {323.613 - 180, 244.951 - 180, 266.572 + 180, 91.406 + 180};
 
         // current limit constants for translation motors
         public static final double TRANS_PEAK = 30;
@@ -158,7 +158,7 @@ public final class RobotMap {
         public static final boolean FOLLOWER_INVERTED = false; // TODO
 
         // Thresholds for soft-limits
-        public static final double FORWARD_LIMIT = 42500;
+        public static final double FORWARD_LIMIT = 41000;
         public static final double REVERSE_LIMIT = 0;
 
         // Time for the motor to go from neutral to full
