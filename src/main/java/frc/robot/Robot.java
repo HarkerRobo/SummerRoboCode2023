@@ -22,10 +22,12 @@ import frc.robot.auton.Trajectories;
 import frc.robot.commands.claw.ToggleClaw;
 import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.commands.elevator.ElevatorManual;
+import frc.robot.commands.elevator.ZeroElevator;
 import frc.robot.subsystems.AngledElevator;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.CameraPoseEstimation;
+import frc.robot.util.Telemetry;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,6 +42,7 @@ public class Robot extends TimedRobot {
 
     private SendableChooser<String> autonChooser;
     private PowerDistribution powerDistribution;
+    private Telemetry telemetry;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -62,10 +65,15 @@ public class Robot extends TimedRobot {
         autonChooser.addOption("Bottom Path", "Bottom Path");
         autonChooser.addOption("Top Path", "Top Path");
         autonChooser.addOption("No auton", "No auton");
+        autonChooser.addOption("Bottom Path Middle", "Bottom Path Middle");
+        autonChooser.addOption("Top Path Middle", "Top Path Middle");
         SmartDashboard.putData("Auton Chooser", autonChooser);
         CameraPoseEstimation.getInstance().getCamera().setDriverMode(true);
+        AngledElevator.getInstance().resetEncoders();
 
         // rio voltage and current
+
+        telemetry = new Telemetry();
 
         powerDistribution = new PowerDistribution();
     }
@@ -77,11 +85,6 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Current Auton:", autonChooser.getSelected());
 
-        // double pdhVoltage = powerDistribution.getVoltage();
-        // double pdhCurrent = powerDistribution.getCurrent(20);
-        // SmartDashboard.putNumber("pdh voltage", pdhVoltage);
-        // SmartDashboard.putNumber("rio current", pdhCurrent);
-
         // SmartDashboard.putNumber("kP",);
         // SmartDashboard.putNumber("kI",
         // Drivetrain.getInstance().thetaController.getI());
@@ -90,6 +93,8 @@ public class Robot extends TimedRobot {
 
         // SmartDashboard.putData(Drivetrain.getInstance());
         // SmartDashboard.putData(Claw.getInstance());
+
+        
 
         NetworkTableInstance.getDefault().flushLocal();
         NetworkTableInstance.getDefault().flush();
@@ -139,6 +144,16 @@ public class Robot extends TimedRobot {
                         .setPose(Trajectories.apply(new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180))));
                 Autons.noAuton.schedule();
                 break;
+            case "Bottom Path Middle":
+                Drivetrain.getInstance()
+                        .setPose(Trajectories.apply(new Pose2d(1.91, 1.09, Rotation2d.fromDegrees(180))));
+                Autons.bottomPathMid.schedule();
+                break;
+            case "Top Path Middle":
+                Drivetrain.getInstance()
+                        .setPose(Trajectories.apply(new Pose2d(1.91, 4.44, Rotation2d.fromDegrees(180))));
+                Autons.topPathMid.schedule();
+                break;
             default:
                 Drivetrain.getInstance()
                         .setPose(Trajectories.apply(new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180))));
@@ -159,11 +174,12 @@ public class Robot extends TimedRobot {
         Autons.middleAndCross.cancel();
         Autons.noAuton.cancel();
         Drivetrain.getInstance().setYaw(180);
+        new ZeroElevator();
     }
 
     @Override
     public void teleopPeriodic() {
-
+        telemetry.putButtons();
     }
 
     @Override

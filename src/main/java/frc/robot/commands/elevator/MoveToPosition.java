@@ -27,6 +27,7 @@ public class MoveToPosition extends CommandBase {
      */
     public void execute() {
         AngledElevator.getInstance().moveToPosition(position);
+    
     }
 
     /**

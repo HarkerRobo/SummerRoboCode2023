@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.subsystems.Claw;
 
-public class ToggleClaw extends InstantCommand{
+public class ToggleClaw extends InstantCommand {
     public ToggleClaw() {
         addRequirements(Claw.getInstance());
     }

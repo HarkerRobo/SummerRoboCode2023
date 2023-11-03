@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.claw.ToggleClaw;
 import frc.robot.commands.drivetrain.AlignPitch;
 import frc.robot.commands.elevator.MoveToPosition;
+import frc.robot.commands.elevator.SoftZero;
 import frc.robot.commands.elevator.ZeroElevator;
 import frc.robot.subsystems.Drivetrain;
 import harkerrobolib.joysticks.XboxGamepad;
@@ -63,6 +64,7 @@ public class OI {
         //operator.getRightDPadButton().debounce(0.13, DebounceType.kRising).onTrue(new ToggleClaw());
         operator.getRightDPadButton().onTrue(new ToggleClaw());
         operator.getRightBumper().onTrue(new ZeroElevator());
+        operator.getLeftBumper().onTrue(new SoftZero());
         // set A button on OPERATOR controller to set Elevator to POSITION LOW
         operator.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
         operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]));

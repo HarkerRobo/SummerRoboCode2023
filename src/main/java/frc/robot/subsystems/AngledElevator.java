@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -42,6 +43,9 @@ public class AngledElevator extends SubsystemBase {
         // make follower motor follow master motor
         follower.follow(master);
 
+        master.configFactoryDefault();
+
+        master.setNeutralMode(NeutralMode.Brake);
         master.config_kP(Constants.SLOT_INDEX, RobotMap.AngledElevator.kP);
 
         master.configForwardSoftLimitEnable(true);
@@ -64,6 +68,7 @@ public class AngledElevator extends SubsystemBase {
      */
 
     public void moveToPosition(double desiredPosition) {
+        // this.desiredPosition = desiredPosition2;
         master.set(ControlMode.MotionMagic, desiredPosition, DemandType.ArbitraryFeedForward, RobotMap.AngledElevator.kG);
         SmartDashboard.putNumber("Elevator Desired", desiredPosition);
     }
@@ -82,7 +87,7 @@ public class AngledElevator extends SubsystemBase {
      */
 
     public double getDesiredPosition() {
-        return desiredPosition;
+        return this.desiredPosition;
     }
 
     /**
@@ -92,7 +97,7 @@ public class AngledElevator extends SubsystemBase {
      */
 
     public boolean checkExtend(double desiredposition) {
-        return Math.abs(desiredposition - master.getSelectedSensorPosition()) < RobotMap.AngledElevator.MAX_ERROR;
+        return (Math.abs(desiredposition - getPosition()) < RobotMap.AngledElevator.MAX_ERROR);
     }
 
     /**
@@ -163,5 +168,6 @@ public class AngledElevator extends SubsystemBase {
         builder.setActuator(true);
         builder.setSafeState(() -> setElevatorPower(0));
         builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
+        builder.addBooleanProperty("Limit Switch", ()->limitSwitch.get(), null);
     }
 }

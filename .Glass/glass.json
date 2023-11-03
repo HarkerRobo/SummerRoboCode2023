@@ -1,25 +1,47 @@
 {
   "NetworkTables": {
-    "Persistent Values": {
-      "open": false
-    },
-    "Retained Values": {
-      "open": false
-    },
-    "Transitory Values": {
-      "open": false
-    },
     "retained": {
       "SmartDashboard": {
-        "Auton Chooser": {
+        "Rotation PID": {
           "open": true
         },
         "open": true
       }
     },
     "transitory": {
+      "LiveWindow": {
+        "AngledElevator": {
+          "open": true
+        },
+        "Claw": {
+          "open": true
+        },
+        "Drivetrain": {
+          "open": true
+        },
+        "Ungrouped": {
+          "open": true
+        }
+      },
       "SmartDashboard": {
         "Auton Chooser": {
+          "open": true
+        }
+      },
+      "datatable": {
+        "Align Pitch": {
+          "open": true
+        },
+        "Drivetrain": {
+          "open": true
+        },
+        "Elevator": {
+          "open": true
+        },
+        "Swerve Module": {
+          "open": true
+        },
+        "SwervePositionController": {
           "open": true
         },
         "open": true
@@ -27,14 +49,91 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/AngledElevator": "Subsystem",
+      "/LiveWindow/AngledElevator/Limit Switch": "Digital Input",
+      "/LiveWindow/Claw": "Subsystem",
+      "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/SmartDashboard/Auton Chooser": "String Chooser"
+      "/SmartDashboard/AngledElevator": "Subsystem",
+      "/SmartDashboard/Auton Chooser": "String Chooser",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Rotation PID": "String Chooser",
+      "/SmartDashboard/test controller": "PIDController"
+    },
+    "windows": {
+      "/LiveWindow/AngledElevator": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Claw": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Drivetrain": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/AngledElevator": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auton Chooser": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
-    "serverTeam": "1072"
-  }
+    "serverTeam": "10.10.72.2"
+  },
+  "Plots": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 0,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/test controller/p"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/kP"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": 0
+        }
+      ]
+    }
+  },
+  "enterKey": 345
 }

@@ -143,12 +143,12 @@ public final class RobotMap {
     
     public static final class AngledElevator {
         public static final double kP = 0.12; // Based on RoboCode2023; TUNE
-        public static final double kG = 0.087; // Based on RoboCode2023; TUNE
+        public static final double kG = 0.073; // Based on RoboCode2023; TUNE
 
-        public static final double MAX_ERROR = 100;
+        public static final double MAX_ERROR = 500;
 
         public static final double CRUISE_VELOCITY = 7447; // NEEDS TO BE TUNED (based on RoboCode2023)
-        public static final double CRUISE_ACCELERATION = 4447; // NEEDS TO BE TUNED (based on RoboCode2023)
+        public static final double CRUISE_ACCELERATION = 4447; // NEEDS TO BE TUNED (based on RoboCode2023) 4447
 
         public static final int MASTER_ID = 15; // Left Motor
         public static final int FOLLOWER_ID = 14; // Right Motor
@@ -158,15 +158,16 @@ public final class RobotMap {
         public static final boolean FOLLOWER_INVERTED = false; // TODO
 
         // Thresholds for soft-limits
-        public static final double FORWARD_LIMIT = 41000;
+        public static final double FORWARD_LIMIT = 45500;
         public static final double REVERSE_LIMIT = 0;
 
         // Time for the motor to go from neutral to full
         public static final double RAMP_TIME = 0.01;
 
+
         // POSITIONS: Low, Middle, High, Human Player (HP)
         public static double[] POSITIONS = {
-                10018, 27000, 41000, 28750
+                10018, 27000, 45000, 31000
         };
 
         // HORIZONTAL Offsets: Middle, High, Human Player (HP)
