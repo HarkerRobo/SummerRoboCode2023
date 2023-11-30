@@ -25,72 +25,50 @@ import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
 public class Drivetrain extends SubsystemBase {
-    private static Drivetrain instance;
+    // instance variable for singleton
 
-    private SwerveModule[] swerveModules;
+    // array of swerve modules
 
-    private Pigeon2 pigeon;
-    private double prevHeading;
+    // pigeon
 
-    private Debouncer debouncer;
+    // previous heading
 
-    private SwerveDriveKinematics kinematics; // converts chassis speeds (x, y, theta) to module states (speed, angle)
+    // debouncer
 
-    private static ProfiledPIDController thetaController = new ProfiledPIDController(RobotMap.Drivetrain.THETA_P, RobotMap.Drivetrain.THETA_I, RobotMap.Drivetrain.THETA_D, new Constraints(4, 3.5));
+    // kinematics
+    // converts chassis speeds (x, y, theta) to module states (speed, angle)
+
+    // profiled PID controller; max velocity is 4, max acceleration is 3.5
 
     // Estimates the robot's pose through encoder (state) and vision measurements;
-    private SwerveDrivePoseEstimator poseEstimator;
 
     // Standard deviations of pose estimate (x, y, heading)
-    private static Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.2); // increase to trust encoder (state) measurements less
-    private static Matrix<N3, N1> visionStdDevs = VecBuilder.fill(0.05, 0.025, 0.05); // increase to trust vsion measurements less
 
     private Drivetrain() {
         // initialize swerve modules
-        swerveModules =
-            new SwerveModule[] {
-                new SwerveModule(0), new SwerveModule(1), new SwerveModule(2), new SwerveModule(3)
-            };
 
-        // initialize pigeon
-        pigeon = new Pigeon2(RobotMap.Drivetrain.PIGEON_ID);
-        initPigeon();
+        // initialize pigeon and call the initPigeon method
 
-        // initialize locations of swerve modules relative to robot (fl, fr, bl, br)
-        kinematics = new SwerveDriveKinematics(
-            new Translation2d(RobotMap.ROBOT_LENGTH / 2, RobotMap.ROBOT_WIDTH / 2),
-            new Translation2d(RobotMap.ROBOT_LENGTH / 2, -RobotMap.ROBOT_WIDTH / 2),
-            new Translation2d(-RobotMap.ROBOT_LENGTH / 2, RobotMap.ROBOT_WIDTH / 2),
-            new Translation2d(-RobotMap.ROBOT_LENGTH / 2, -RobotMap.ROBOT_WIDTH / 2));
+        // kinematics - initialize locations of swerve modules relative to robot (fl, fr, bl, br)
 
-        // sets how much error to allow on theta controller
-        thetaController.setTolerance(RobotMap.Drivetrain.MAX_ERROR_YAW);
+        // sets how much error to allow on theta controller; will be in RobotMap
 
         // initial pose (holds the x, y, heading)
-        Pose2d initalPoseMeters = new Pose2d();
 
         // initialize pose estimator
-        poseEstimator = new SwerveDrivePoseEstimator(
-            kinematics,
-            getRotation(),
-            getModulePositions(),
-            initalPoseMeters,
-            stateStdDevs,
-            visionStdDevs);
 
-        debouncer = new Debouncer(0.4, DebounceType.kRising);
+        // initialize debouncer with a 0.4 second delay and a rising debounce type
     }
 
     /*
      * Initialize pigeon values
+     * Configs factory default
+     * Configs mount pose yaw, pitch, and roll
+     * Sets yaw to 0
+     * Configs compass to false
      */
     private void initPigeon() {
-        pigeon.configFactoryDefault();
-        pigeon.configMountPoseYaw(90); // pigeon mounted at 90 degrees on robot
-        pigeon.configMountPosePitch(0);
-        pigeon.configMountPoseRoll(0);
-        pigeon.setYaw(0); // sets yaw so driver's forward (0 degrees) = robot's forward
-        pigeon.configEnableCompass(false);
+        return;
     }
 
     /**
@@ -110,67 +88,60 @@ public class Drivetrain extends SubsystemBase {
         return omega;
     }
 
-    /*
+    /**
      * Returns yaw of pigeon in degrees (heading of robot)
+     * @return yaw of pigeon in degrees
      */
     public double getHeading() {
-        SmartDashboard.putNumber("pigeon heading", pigeon.getYaw());
-        return pigeon.getYaw();
+        return 0;
     }
 
     /**
      * @return pitch of pigeon in degrees
      */
     public double getPitch() {
-        return pigeon.getPitch();
+        return 0;
     }
 
     /**
      * @return roll of pigeon in degrees
      */
     public double getRoll() {
-        return pigeon.getRoll();
+        return 0;
     }
 
     /**
      * @return heading of pigeon as a Rotation2d
      */
     public Rotation2d getRotation() {
-        return Rotation2d.fromDegrees(getHeading());
+        return new Rotation2d();
     }
 
     /**
-     * @return the states of the swerve modules in an array
+     * @return the positions of the swerve modules in an array
      */
     private SwerveModulePosition[] getModulePositions() {
-        return new SwerveModulePosition[] {
-          swerveModules[0].getSwerveModulePosition(),
-          swerveModules[1].getSwerveModulePosition(),
-          swerveModules[2].getSwerveModulePosition(),
-          swerveModules[3].getSwerveModulePosition()
-        };
+        return new SwerveModulePosition[] {};
     }
 
     /**
      * Sets the initial pose of the drivetrain
+     * zeros the translation of each swerve module
+     * sets the yaw of the pigeon to the given angle (in degrees)
+     * updates the pose estimator (using resetPosition and the the current rotation, module positions, and pose)
      * @param pose      intial Pose2d of drivetrain
      */
     public void setPose(Pose2d pose) {
-        swerveModules[0].zeroTranslation();
-        swerveModules[1].zeroTranslation();
-        swerveModules[2].zeroTranslation();
-        swerveModules[3].zeroTranslation();
-        setYaw(pose.getRotation().getDegrees());
-        poseEstimator.resetPosition(pose.getRotation(), getModulePositions(), pose);
+        return;
     }
 
     /**
      * Sets the yaw of the pigeon to the given angle
-     * @param yaw   angle in degrees
+     * Updates previous heading to the current heading
+     * @param yaw   angle in degrees (double)
      */
-    public void setYaw(double yaw) {
-        pigeon.setYaw(yaw);
-        setPreviousHeading(yaw);
+    public void setYaw() {
+        return;
     }
 
     /**
@@ -178,7 +149,7 @@ public class Drivetrain extends SubsystemBase {
      * @param prev new heading
      */
     public void setPreviousHeading(double prev) {
-        prevHeading = prev;
+        return;
     }
 
     /**
@@ -201,19 +172,13 @@ public class Drivetrain extends SubsystemBase {
      * @return kinematics of swerve drive
      */
     public SwerveDriveKinematics getKinematics() {
-        return kinematics;
+        return new SwerveDriveKinematics(null, null, null, null);
     }
 
     /**
      * Singleton code
      * @return instance of Drivetrain
      */
-    public static Drivetrain getInstance() {
-        if (instance == null) {
-            instance = new Drivetrain();
-        }
-        return instance;
-    }
 
     /**
      * Converts chassis speeds to individual swerve module 
@@ -221,49 +186,29 @@ public class Drivetrain extends SubsystemBase {
      * @param chassis       chassis speeds to convert
      */
     public void setAngleAndDrive(ChassisSpeeds chassis) {
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
-        swerveModules[0].setAngleAndDrive(states[0]);
-        swerveModules[1].setAngleAndDrive(states[1]);
-        swerveModules[2].setAngleAndDrive(states[2]);
-        swerveModules[3].setAngleAndDrive(states[3]);
+        return;
     }
 
     /**
      * Called every loop, feeds newest encoder readings to estimator
+     * gets the current rotation and module positions and updates the pose
      */
     public void updatePose() {
-        poseEstimator.update(getRotation(), getModulePositions());
+        return;
     }
 
     /**
      * @return the estimated pose aas a Pose2d
      */
     public Pose2d getPoseEstimatorPose2d() {
-        return poseEstimator.getEstimatedPosition();
+        return new Pose2d();
     }
 
-    @Override
+    /**
+     * updates the pose of the drivetrain
+     * make sure to override the method
+     */
     public void periodic() {
-        updatePose();
+        return;
     }
-
-    // @Override
-    // public void initSendable(SendableBuilder builder) {
-    //     builder.setSmartDashboardType("Drivetrain");
-    //     builder.setActuator(true);
-    //     builder.setSafeState(() -> setAngleAndDrive(new ChassisSpeeds()));
-    //     builder.addDoubleProperty("Pitch Value", () -> getPitch(), null);
-    //     builder.addDoubleProperty("Roll Value", () -> getRoll(), null);
-
-    //     for (int i = 0; i < 4; i++) {
-    //     builder.addDoubleProperty(
-    //         SwerveModule.swerveIDToName(i) + " Translation Speed", swerveModules[i]::getSpeed, null);
-    //     builder.addDoubleProperty(
-    //         SwerveModule.swerveIDToName(i) + " Translation Position",
-    //         swerveModules[i]::getWheelPosition,
-    //         null);
-    //     builder.addDoubleProperty(
-    //         SwerveModule.swerveIDToName(i) + " Rotation Angle", swerveModules[i]::getAngle, null);
-    //     }
-    // }
 }

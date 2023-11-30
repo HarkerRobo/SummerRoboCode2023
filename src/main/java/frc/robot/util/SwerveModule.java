@@ -18,75 +18,64 @@ import harkerrobolib.util.HSFalconBuilder;
 
 
 public class SwerveModule {
-    //motors on the swerve modules
-    private TalonFX translation;
-    private TalonFX rotation; 
+    //motors on the swerve modules; two TalonFXs; translation and rotation
 
-    private CANCoder canCoder;
+    // cancoder
 
-    //swerve module id
-    private int ID;
+    // swerve module id
 
-    private SimpleMotorFeedforward feedforward;
+    // feedforward using SimpleMotorFeedforward
 
     public SwerveModule(int id) {
-        ID = id;
+        // sets the swerve module id to the id passed in
 
-        //configures translation and rotation motors
-      //  translation= new TalonFX(id);
-        //translation.setInverted(RobotMap.SwerveModule.TRANSLATION_INVERTS[id]);
-        translation = new HSFalconBuilder()
-            .invert(RobotMap.SwerveModule.TRANSLATION_INVERTS[id])
-            .supplyLimit(RobotMap.SwerveModule.TRANS_PEAK, RobotMap.SwerveModule.TRANS_CONTINUOUS, RobotMap.SwerveModule.TRANS_PEAK_DUR)
-            .build(RobotMap.SwerveModule.TRANSLATION_IDS[id], RobotMap.CAN_CHAIN);
-
-        rotation = new HSFalconBuilder()
-            .invert(RobotMap.SwerveModule.ROTATION_INVERTS[id])
-            .supplyLimit(RobotMap.SwerveModule.ROT_PEAK, RobotMap.SwerveModule.ROT_CONTINUOUS, RobotMap.SwerveModule.ROT_PEAK_DUR)
-            .build(RobotMap.SwerveModule.ROTATION_IDS[id],RobotMap.CAN_CHAIN);
+        // init translation and rotation motors using HSFalconBuilder; add supplyLimit using constants from RobotMap
         
-        canCoder = new CANCoder(RobotMap.SwerveModule.CAN_CODER_ID[id]);
+        // initialize cancoder
 
-        feedforward = new SimpleMotorFeedforward(RobotMap.SwerveModule.TRANSLATION_KS, RobotMap.SwerveModule.TRANSLATION_KV, RobotMap.SwerveModule.TRANSLATION_KA);
+        // initialize feedforward using SimpleMotorFeedforward and constants from RobotMap
         
-        init();
-    }   
+        // call init method
+    }
+
     /**
      * Sets cancoders to default
      */
     private void init() {
-        translation.clearStickyFaults();
+        // clears sticky faults for both translation and rotation motors
 
-        rotation.clearStickyFaults();
+        // configs the translation and rotation motors to factory default
 
-        translation.configFactoryDefault();
-        rotation.configFactoryDefault();
+        // configs kP for rotation motor
 
-        rotation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.ROTATION_KP);
-        translation.config_kP(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KP);
-        translation.config_kI(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KI);
-        translation.config_kD(Constants.SLOT_INDEX, RobotMap.SwerveModule.TRANSLATION_KD);
-        translation.enableVoltageCompensation(true); //disables voltage compensation 
-        translation.configVelocityMeasurementWindow(RobotMap.SwerveModule.VELOCITY_WINDOW); //number of samples measured 
-        translation.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_10Ms);
-        canCoder.configFactoryDefault();
-        canCoder.clearStickyFaults();
-        canCoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        canCoder.setPositionToAbsolute();
-        canCoder.configSensorDirection(false);
-        setAbsolutePosition();
+        // configs kP, kI, and kD for translation motor
+
+        // enable voltage compensation for translation motor
+
+        // configs the velocity measurement window and period for translation motor (using constants from RobotMap
+        // measurement window is 10ms)
+
+        /**
+         * Sets cancoder to default (configFactoryDefault)
+         * Clears sticky faults
+         * Configs sensor initialization strategy to boot to absolute position
+         * Sets position to absolute
+         * Configs sensor direction to false
+         * Sets absolute position (call method)
+         */
         
     }
     /**
      * Sets translation and rotation motors to move to new state
+     * Try to write this without any references
+     * If you are really stuck, refrence your neo drivetrain code
      * @param state new state 
      */
     public void setAngleAndDrive(SwerveModuleState state) {
-        state = optimize(state);
-        translation.set(ControlMode.Velocity, state.speedMetersPerSecond / RobotMap.SwerveModule.VELOCITY_CONVERSION, DemandType.ArbitraryFeedForward, feedforward.calculate(state.speedMetersPerSecond)/Constants.MAX_VOLTAGE);
-        rotation.set(ControlMode.Position, state.angle.getDegrees() / RobotMap.SwerveModule.ROTATION_CONVERSION);
+        return;
     }
-    /*
+
+    /**
      * adjusts the angle of a swerve module state 
      */
     public SwerveModuleState optimize (SwerveModuleState desiredState){
@@ -96,7 +85,6 @@ public class SwerveModule {
         var adjusted = targetAngle + currentAngle - remainder;
 
         var speed = desiredState.speedMetersPerSecond;
-        SmartDashboard.putNumber(swerveIDToName(ID) + "Desired Translation Speed", speed);
         
         if(adjusted - currentAngle > Math.PI) {
             adjusted -= Math.PI * 2;
@@ -114,46 +102,56 @@ public class SwerveModule {
         return new SwerveModuleState(speed, Rotation2d.fromRadians(adjusted));
         
     }
-    /*
+
+    /**
      * resets the swerve module
+     * sets the position of the canCoder based on the absolute position of the canCoder and the offset
+     * set the sensor position of the rotation motor to the position of the canCoder divided by the conversion factor
+     * zero the translation motor
      */
     private void setAbsolutePosition() {
-        double position = canCoder.getAbsolutePosition() - RobotMap.SwerveModule.CAN_CODER_OFFSETS[ID];
-        rotation.setSelectedSensorPosition(position / RobotMap.SwerveModule.ROTATION_CONVERSION);
-        zeroTranslation();
+        return;
     }
 
+    // sets the sensor position of the translation motor to 0
     public void zeroTranslation() {
-        translation.setSelectedSensorPosition(0);
+        return;
     }
-    /*
-     * returns the angle of the rotation motor 
+
+    /**
+     * returns the angle of the rotation motor (remember to use the conversion factor)
      */
     public double getAngle() {
-        return rotation.getSelectedSensorPosition() * RobotMap.SwerveModule.ROTATION_CONVERSION;
-    }
-    /*
-     * return speed of translation motor 
-     */
-    public double getSpeed() {
-        return translation.getSelectedSensorVelocity() * RobotMap.SwerveModule.VELOCITY_CONVERSION;
-    }
-    /*
-     * returns position of translation motor
-     */
-    public double getWheelPosition() {
-        return translation.getSelectedSensorPosition() * RobotMap.SwerveModule.POSITION_CONVERSION;
+        return 0;
     }
 
-    //returns position and angle
+    /**
+     * return speed of translation motor 
+     * this is similar to getAngle()
+     */
+    public double getSpeed() {
+        return 0;
+    }
+
+    /**
+     * returns position of translation motor
+     * this is similar to the methods above
+     */
+    public double getWheelPosition() {
+        return 0;
+    }
+    
+    // returns position and angle
     public SwerveModulePosition getSwerveModulePosition() {
-        return new SwerveModulePosition(getWheelPosition(), Rotation2d.fromDegrees(getAngle()));
+        return new SwerveModulePosition();
     }
-    //returns speed and angle
+
+    // returns speed and angle
     public SwerveModulePosition getSwerveModuleState() {
-        return new SwerveModulePosition(getSpeed(), Rotation2d.fromDegrees(getAngle()));
+        return new SwerveModulePosition();
     }
-    //name of module on smart dashbaord 
+
+    // name of module on smart dashbaord 
     public static String swerveIDToName(int swerveID) {
         String output = "";
         if (swerveID < 2) output += "Front ";

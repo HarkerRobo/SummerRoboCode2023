@@ -4,35 +4,29 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.AngledElevator;
 
-public class ZeroElevator extends CommandBase {
+public class ZeroElevator /* extends __ */ {
 
+    /**
+     * Constructor for ZeroElevator
+     * Associates ZeroElevator with AngledElevator subsystem
+     */
     public ZeroElevator() {
-        addRequirements(AngledElevator.getInstance());
+        /* CODE HERE */
     }
 
     /**
      * Slowly move the elevator down
+     * Make sure to use the method in AngledElevator
+     * Make sure to use the constant in RobotMap
      */
-
-    public void execute() {
-        AngledElevator.getInstance().setElevatorPower(RobotMap.ZeroElevator.ZERO_SPEED);
-    }
 
     /**
-     * if Elevator is at "Zero", stop Power
+     * if Elevator is at "Zero" (isFinished method), stop Power
+     *                          make sure to use the method in AngledElevator
+     * make sure to override the method
      */
-
-    @Override
-    public boolean isFinished() {
-        return AngledElevator.getInstance().extensionStop();
-    }
 
     /**
      * End: Reset Encoders and Move Elevator to lowest position (ground level)
      */
-
-    public void end(boolean interrupted) {
-        AngledElevator.getInstance().resetEncoders();
-        AngledElevator.getInstance().setDesiredPosition(0);
-    }
 }

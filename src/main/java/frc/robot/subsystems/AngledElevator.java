@@ -12,156 +12,143 @@ import harkerrobolib.util.Constants;
 import harkerrobolib.util.HSFalconBuilder;
 import harkerrobolib.wrappers.HSFalcon;
 
-public class AngledElevator extends SubsystemBase {
-    private static AngledElevator instance;
+public class AngledElevator /* extends __ */ {
+    // instance variable for singleton
 
-    private HSFalcon master;
-    private HSFalcon follower;
-    private DigitalInput limitSwitch;
+    // two motors, both HSFalcons; one master, one follower
 
-    private double desiredPosition;
+    // limit switch, DigitalInput
+
+    // instance variable for the desiredPosition of the elevator (double)
 
     private AngledElevator() {
-        master = new HSFalconBuilder().invert(RobotMap.AngledElevator.MASTER_INVERTED).build(RobotMap.AngledElevator.MASTER_ID, RobotMap.CAN_CHAIN);
-        follower = new HSFalconBuilder().invert(RobotMap.AngledElevator.FOLLOWER_INVERTED).build(RobotMap.AngledElevator.FOLLOWER_ID, RobotMap.CAN_CHAIN);
-        
-        // initialize 
-        limitSwitch = new DigitalInput(RobotMap.AngledElevator.LIMIT_SWITCH_ID);
-        initElevator();
-    }
+        // initializes motors using HSFalconBuilder
 
+        // initializes limit switch
+
+        // calls initElevator to initialize the motors
+    }
 
     /**
      * Initialized motors for AngledElevator
      */
     private void initElevator() {
-        addChild("Master Motor", master);
-        addChild("Follower Motor", follower);
-        addChild("Limit Switch", limitSwitch);
-
         // make follower motor follow master motor
-        follower.follow(master);
 
-        master.config_kP(Constants.SLOT_INDEX, RobotMap.AngledElevator.kP);
+        // configs kP for the master motor
 
-        master.configForwardSoftLimitEnable(true);
-        master.configReverseSoftLimitEnable(true);
-        master.configForwardSoftLimitThreshold(RobotMap.AngledElevator.FORWARD_LIMIT);
-        master.configReverseSoftLimitThreshold(RobotMap.AngledElevator.REVERSE_LIMIT);
-        
-        master.overrideSoftLimitsEnable(true);
+        // configs the softlimits for the motor and the thresholds (using constants from
+        // RobotMap)
 
-        master.configMotionCruiseVelocity(RobotMap.AngledElevator.CRUISE_VELOCITY);
-        master.configMotionAcceleration(RobotMap.AngledElevator.CRUISE_ACCELERATION);
+        // overrides the softlimits and sets them to true
 
-        master.configClosedloopRamp(RobotMap.AngledElevator.RAMP_TIME);
+        // configs the cruise velocity and acceleration for the motor
+
+        // configs the ramp rate for the motor
     }
 
     /**
      * moves the Elevator to some desired position
-     * @param   desiredPosition
-     * @return  set the master motor using MotionMagic 
+     * set the master motor using MotionMagic and FeedForward
+     * 
+     * @param desiredPosition
      */
 
     public void moveToPosition(double desiredPosition) {
-        master.set(ControlMode.MotionMagic, desiredPosition, DemandType.ArbitraryFeedForward, RobotMap.AngledElevator.kG);
-        SmartDashboard.putNumber("Elevator Desired", desiredPosition);
+        return;
     }
 
     /**
-     * @param   position
-     * @return  set the desired position to some position
+     * set the desired position to some position
+     * 
+     * @param position
      */
 
     public void setDesiredPosition(double position) {
-        this.desiredPosition = position;
+        return;
     }
 
     /**
-     * @return  desired position
+     * Gets the desired position of the elevator and returns it
+     * 
+     * @return desired position
      */
 
     public double getDesiredPosition() {
-        return desiredPosition;
+        // Change
+        return 0;
     }
 
     /**
      * check if the elevator is extended
-     * @param   desiredposition 
-     * @return  whether the absolute value of the desired position minus the current position is less than the max error of the elevator
+     * 
+     * @param desiredposition
+     * @return whether the absolute value of the desired position minus the current
+     *         position is less than the max error of the elevator
      */
 
     public boolean checkExtend(double desiredposition) {
-        return Math.abs(desiredposition - master.getSelectedSensorPosition()) < RobotMap.AngledElevator.MAX_ERROR;
+        // Change
+        return false;
     }
 
     /**
-     * @return  get the selected encoder position of the master motor
+     * Gets the current position of the elevator and returns it (sensor position)
+     * 
+     * @return get the selected encoder position of the master motor
      */
 
     public double getPosition() {
-        return master.getSelectedSensorPosition();
+        // Change
+        return 0;
     }
 
     /**
-     * if power is 0, disable the motor
-     * @param   power
-     * @return  power to the motors using PercentOutput (constant); extends / retracts motors
+     * if power is 0, disable the motor (neutralOutput)
+     * power to the motors using PercentOutput (constant)
+     * 
+     * @param power
      */
 
     public void setElevatorPower(double power) {
-        if (power == 0)
-            master.neutralOutput();
-        else
-            master.set(ControlMode.PercentOutput, power);
+        return;
     }
 
-
     /**
-     * @return  resetted encoders (set postion of the encoders to zero)
+     * Resets the encoders for the motors
+     * 
+     * @postcondition reset encoders (set postion of the encoders to zero)
      */
 
     public void resetEncoders() {
-        master.setSelectedSensorPosition(0);
-        follower.setSelectedSensorPosition(0);
+        return;
     }
 
     /**
-     * @return  whether elevator is at ground level (at the bottom)
+     * Check if the elevator is at the ground level using the limit switch
+     * 
+     * @return whether elevator is at ground level (at the bottom)
      */
 
     public boolean extensionStop() {
-        return !limitSwitch.get();
+        // Change
+        return false;
     }
 
     /**
-     * @return  if the elevator is extended to the max
+     * Check if the elevator is at the max height (if the position is greater than
+     * the highest position)
+     * 
+     * @return if the elevator is extended to the max
      */
     public boolean isFarExtended() {
-        return getPosition() > RobotMap.AngledElevator.POSITIONS[1];
+        // Change
+        return false;
     }
 
     /**
      * Singleton code
-     * @return  isntance of AngledElevator
+     * 
+     * @return isntance of AngledElevator
      */
-
-    public static AngledElevator getInstance() {
-        if (instance == null)
-            instance = new AngledElevator();
-        
-        return instance;
-    }
-
-    /**
-     * Smart Dashboard Function
-     */
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("Elevator");
-        builder.setActuator(true);
-        builder.setSafeState(() -> setElevatorPower(0));
-        builder.addDoubleProperty("Current Elevator Position", this::getPosition, this::moveToPosition);
-    }
 }

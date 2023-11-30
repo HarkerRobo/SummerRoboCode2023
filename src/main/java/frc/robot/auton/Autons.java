@@ -16,65 +16,15 @@ public class Autons {
      * community zone
      */
 
-    public static final SequentialCommandGroup topPath = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
-            new OpenClaw(),
-            new MoveToPosition(0),
-            new SwervePositionController(
-                    Trajectories.topPath,
-                    () -> Rotation2d.fromDegrees(180),
-                    () -> Rotation2d.fromDegrees(180)));
-
     /**
      * middlePath : Grab game piece from bot, drop off at node, and move back on
      * chargePad
      */
 
-    public static final SequentialCommandGroup middlePath = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
-            new OpenClaw(),
-            new MoveToPosition(0),
-            new SwervePositionController(
-                    Trajectories.chargePad,
-                    () -> Rotation2d.fromDegrees(180),
-                    () -> Rotation2d.fromDegrees(180)),
-            new AlignPitch());
-
-        public static final SequentialCommandGroup middleAndCrossMidCube = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]),
-            new OpenClaw(),
-            new MoveToPosition(0)
-                    .alongWith(
-                            new SwervePositionController(
-                                    Trajectories.middleAndCross1,
-                                    () -> Rotation2d.fromDegrees(180),
-                                    () -> Rotation2d.fromDegrees(180))),
-            new SwervePositionController(
-                    Trajectories.middleAndCross2,
-                    () -> Rotation2d.fromDegrees(180),
-                    () -> Rotation2d.fromDegrees(180)),
-            new AlignPitch());
     /**
      * bottomPath : Grab game piece from bot, drop off at node, and move back out of
      * community zone
      */
-
-    public static final SequentialCommandGroup bottomPath = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
-            new OpenClaw(),
-            new MoveToPosition(0),
-            new SwervePositionController(
-                    Trajectories.bottomPath,
-                    () -> Rotation2d.fromDegrees(180),
-                    () -> Rotation2d.fromDegrees(180)));
 
     /**
      * middleAndCross : Grab game piece from bot, drop off at node, and move back
@@ -82,31 +32,7 @@ public class Autons {
      * auton)
      */
 
-    public static final SequentialCommandGroup middleAndCross = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
-            new OpenClaw(),
-            new MoveToPosition(0)
-                    .alongWith(
-                            new SwervePositionController(
-                                    Trajectories.middleAndCross1,
-                                    () -> Rotation2d.fromDegrees(180),
-                                    () -> Rotation2d.fromDegrees(180))),
-            new SwervePositionController(
-                    Trajectories.middleAndCross2,
-                    () -> Rotation2d.fromDegrees(180),
-                    () -> Rotation2d.fromDegrees(180)),
-            new AlignPitch());
-
     /**
      * noAuton : Grab game piece from bot and drop off at node
      */
-
-    public static final SequentialCommandGroup noAuton = new SequentialCommandGroup(
-            new ZeroElevator(),
-            new CloseClaw(),
-            new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]),
-            new OpenClaw(),
-            new MoveToPosition(0));
 }

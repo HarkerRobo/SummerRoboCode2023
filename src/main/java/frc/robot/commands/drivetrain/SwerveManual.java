@@ -9,42 +9,43 @@ import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.Constants;
 import harkerrobolib.util.MathUtil;
 
-public class SwerveManual extends IndefiniteCommand {
+public class SwerveManual /* extends __ */ {
 
-    private double vx, vy, prevvx, prevvy, omega;
+    // 5 instance variables
+    // 2 for x and y velocities, 2 for previous x and y velocities, 1 for rotational velocity
 
+    /**
+     * Constructor for SwerveManual
+     * Sets the requirements to Drivetrain
+     * Initializes all instance variables to 0
+     */
     public SwerveManual() {
-        addRequirements(Drivetrain.getInstance());
-        prevvx = prevvy = vx = vy = omega = 0;
     }
 
     public void execute() {
-        // set previous x and y velocities
-        prevvx = vx;
-        prevvy = vy;
+        // sets previous x and y velocities to current x and y velocities
 
-        // get x, y, and rotational velocities from joystick
-        vx =
-            MathUtil.mapJoystickOutput(
-                OI.getInstance().getDriver().getLeftY(), Constants.JOYSTICK_DEADBAND);
-        vy =
-            MathUtil.mapJoystickOutput(
-                -OI.getInstance().getDriver().getLeftX(), Constants.JOYSTICK_DEADBAND);
-        omega =
-            MathUtil.mapJoystickOutput(
-                OI.getInstance().getDriver().getRightX(), Constants.JOYSTICK_DEADBAND);
+        // get x, y, and rotational velocities from joystick; remember to use the deadband
+
+        /**
+         * vx will be to the left joystick's y value
+         * vy will be to the left joystick's x value
+         * 
+         * omega will be to the right joystick's x value
+         */
+
+        // adjusts omega to the pigeon's yaw value
+
+        /**
+         * Scaling velocities based on multipliers
+         * scale values based on the current velocity and the max driving speed
+         *         if the elevator is far extended, scale the velocities by the clamp multiplier
+         * 
+         * scale rotational values based on the current rotational velocity and the max rotational velocity
+         */
 
 
-        omega = Drivetrain.getInstance().adjustPigeon(omega);
-
-        // Scaling velocities based on multipliers
-        vx = scaleValues(vx, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
-        vy = scaleValues(vy, RobotMap.MAX_DRIVING_SPEED) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.CLAMP_MULTIPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
-        omega = scaleValues(omega, RobotMap.MAX_ANGLE_VELOCITY) * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.ROT_MULITPLIER : RobotMap.SwerveManual.SPEED_MULTIPLIER);
-
-        // limits acceleration
-        vy = limitAcceleration(vy, prevvy);
-        vx = limitAcceleration(vx, prevvx);
+        // limits acceleration based on the previous velocity and the current velocity
 
         
         // aligns to nearest target
@@ -52,21 +53,18 @@ public class SwerveManual extends IndefiniteCommand {
         //     omega = Drivetrain.getInstance().alignToTarget(omega);
         // }
 
-        // sets velocities to zero if robot is not visibly moving
-        if (isRobotStill()) {
-            vx = 0;
-            vy = 0;
+        /**
+         * if the robot is not visibly moving, set the x and y velocities to 0
+         * checks if the robot is still by calling a method in this class
+         * 
+         * if the rotational velocity is very small, set it to a very small value
+         *     this is to prevent the robot from not rotating at all (set it to 0.0001)
+         */
 
-            // if rotational velocity is very small
-            if (Math.abs(omega) < RobotMap.Drivetrain.MIN_OUTPUT) {
-                omega = 0.0001;
-            }
-        }
-
-        Drivetrain.getInstance()
-            .setAngleAndDrive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                    vx, vy, -omega, Drivetrain.getInstance().getRotation()));
+        /**
+         * sets the angle and drive to the calculated x, y, and rotational velocities
+         * remember to use the field relative speeds
+         */
     }
 
     /**
@@ -76,14 +74,19 @@ public class SwerveManual extends IndefiniteCommand {
      * @return          corrected velocity
      */
     private double limitAcceleration(double value, double prevValue) {
-        if (Math.abs(value - prevValue) / Constants.ROBOT_LOOP > ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.MAX_ACCELERATION_EXTENDED : RobotMap.SwerveManual.MAX_ACCELERATION)) {
-            value = prevValue + Math.signum(value - prevValue)
-                    * ((AngledElevator.getInstance().isFarExtended()) ? RobotMap.SwerveManual.MAX_ACCELERATION_EXTENDED : RobotMap.SwerveManual.MAX_ACCELERATION)
-                    * Constants.ROBOT_LOOP;
-            // previous velocity + direction of movement (+/-) * acceleration * time (a=v/t)
-        }
+        /**
+         * if the absolute value of the difference between the current velocity and the previous velocity
+         *     divided by the robot loop is greater than the max acceleration
+         *          check if the elevator is far extended and set the max acceleration accordingly
+         * 
+         * set the current velocity to the previous velocity plus the sign of the difference between the current velocity and the previous velocity
+         *    times the max acceleration times the robot loop
+         *      remember to set the acceleration based on the elevator's position
+         * 
+         * previous velocity + direction of movement (+/-) * acceleration * time (a=v/t)
+         */
 
-        return value;
+        return 0;
     }
 
     /**
@@ -92,21 +95,24 @@ public class SwerveManual extends IndefiniteCommand {
      * @param scaleFactor   multiplier
      * @return              scaled velocity
      */
-    private double scaleValues(double value, double scaleFactor) {
-        return value * scaleFactor;
+    private double scaleValues() {
+        return 0;
     }
 
     /**
+     * Checks if the robot is moving slow enough to be considered still
+     * Checks whether the robot's velocity is less than the minimum output
+     *      the robot's velocity is calculated by the square root of the sum of the squares of the x and y velocities
      * @return if the robot is moving slow enough for it to be considered still
      */
     private boolean isRobotStill() {
-        return Math.sqrt(vx * vx + vy * vy) < RobotMap.Drivetrain.MIN_OUTPUT;
+        return false;
     }
 
     /**
      * Sets the x, y, and rotational velocities to 0.
      */
     public void end(boolean interrupted) {
-        Drivetrain.getInstance().setAngleAndDrive(new ChassisSpeeds());
+        return;
     }
 }

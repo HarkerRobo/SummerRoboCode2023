@@ -11,15 +11,17 @@ import harkerrobolib.joysticks.XboxGamepad;
 import harkerrobolib.util.Constants;
 
 public class OI {
-    private static OI instance;
+    // Instance variable for singleton
 
-    private XboxGamepad driver;
-    private XboxGamepad operator;
+    // Driver and Operator Controllers (XboxGamepad); driver and operator
 
+    /**
+     * Constructor for OI
+     * Creates Driver and Operator Controllers (use the respective IDs in Constants)
+     * Initializes bindings
+     */
     private OI() {
-        driver = new XboxGamepad(Constants.DRIVER_ID);
-        operator = new XboxGamepad(Constants.OPERATOR_ID);
-        initBindings();
+        /* CODE HERE */
     }
 
     /**
@@ -27,7 +29,8 @@ public class OI {
      */
 
     public XboxGamepad getDriver() {
-        return driver;
+        // Change Code
+        return new XboxGamepad(0);
     }
 
     /**
@@ -35,40 +38,25 @@ public class OI {
      */
 
     public XboxGamepad getOperator() {
-        return operator;
+        // Change Code
+        return new XboxGamepad(0);
     }
 
     private void initBindings() {
-        // set Right DPad Button to toggle claw
-        // driver.getRightDPadButton().onTrue(new ToggleClaw());
+        // set LeftBumper Button to Align Pitch (driver)
 
-        // X = HP, Y = High, B = Middle, A = Lo
-        // driver.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
-        // driver.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator
-        
-        // .POSITIONS[2]));
-        // driver.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
-        // driver.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
+        // set Start Button to Align Yaw (Reset Yaw) (driver)
 
-        // set LeftBumper Button to Align Pitch
-        driver.getLeftBumper().whileTrue(new AlignPitch());
+        // set the right dpad button to toggle the claw (operator)
 
-        // set Start Button to Align Yaw (Reset Yaw)
-        driver.getRightBumper().onTrue(new InstantCommand(() -> {
-            Drivetrain.getInstance().setYaw(0);
-        }));
+        // set the right bumper button to zero the elevator (operator)
 
-        // set Select Button to Zero Elevator
-        // driver.getButtonSelect().onTrue(new ZeroElevator());
-        //operator.getRightDPadButton().debounce(0.13, DebounceType.kRising).onTrue(new ToggleClaw());
-        operator.getRightDPadButton().onTrue(new ToggleClaw());
-        operator.getRightBumper().onTrue(new ZeroElevator());
-        operator.getLeftBumper().onTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[4]));
+        // set the left bumper button to move the elevator to the 4th position (operator) (soft zero)
+
         // set A button on OPERATOR controller to set Elevator to POSITION LOW
-        operator.getButtonX().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[3]));
-        operator.getButtonY().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[2]));
-        operator.getButtonB().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[1]));
-        operator.getButtonA().whileTrue(new MoveToPosition(RobotMap.AngledElevator.POSITIONS[0]));
+        // set B button on OPERATOR controller to set Elevator to POSITION MID
+        // set Y button on OPERATOR controller to set Elevator to POSITION HIGH
+        // set X button on OPERATOR controller to set Elevator to POSITION HUMAN PLAYER (HP)
     }
 
     /**
@@ -76,9 +64,4 @@ public class OI {
      * 
      * @return instance of OI
      */
-    public static OI getInstance() {
-        if (instance == null)
-            instance = new OI();
-        return instance;
-    }
 }

@@ -4,14 +4,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.subsystems.Claw;
 
-public class OpenClaw extends InstantCommand {
+public class OpenClaw /* extends __ */ {
 
+    /**
+     * Constructor for OpenClaw
+     * Associates OpenClaw with Claw subsystem
+     */
     public OpenClaw() {
-        addRequirements(Claw.getInstance());
+        /* CODE HERE */
     }
 
-    public void initialize() {
-        Claw.getInstance().getClaw().set(DoubleSolenoid.Value.kReverse);
-    }
-    
+    /**
+     * Remember what method its in (what methods do InstantCommand have)
+     * Sets the claw to the reverse position (open)
+     */
 }

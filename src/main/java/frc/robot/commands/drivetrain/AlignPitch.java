@@ -7,24 +7,29 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 
-public class AlignPitch extends CommandBase {
+public class AlignPitch /* extends __ */ {
 
-    private static ProfiledPIDController pitchController =
-        new ProfiledPIDController(
-            RobotMap.AlignPitch.kP, RobotMap.AlignPitch.kI, RobotMap.AlignPitch.kD, new Constraints(RobotMap.MAX_DRIVING_SPEED, RobotMap.MAX_DRIVING_SPEED / 2));
+    /**
+     * Creates a new ProfiledPIDController for the pitch controller
+     * The pitch controller is used to align the robot's pitch
+     * Sets the P, I, and D values to the constants in RobotMap
+     * Sets the constraints to the max driving speed (for max velocity) and half of the max driving speed (for max acceleration)
+     */
 
+    /**
+     * Creates a new AlignPitch command
+     * Requires the Drivetrain subsystem
+     */ 
     public AlignPitch() {
-        addRequirements(Drivetrain.getInstance());
     }
 
     /**
      * Initializes the pitch controller by reseting its values and setting
      * its tolerance and setpoint
+     *  both the tolerance and setpoint are constants in RobotMap
      */
     public void initialize() {
-        pitchController.reset(0);
-        pitchController.setTolerance(RobotMap.AlignPitch.MAX_ERROR_PITCH);
-        pitchController.setGoal(RobotMap.AlignPitch.SETPOINT);
+        return;
     }
 
     /**
@@ -32,26 +37,31 @@ public class AlignPitch extends CommandBase {
      * calculated velocity
      */
     public void execute() {
-        double error = RobotMap.AlignPitch.SETPOINT - Drivetrain.getInstance().getRoll();
-        double forwardAmount = pitchController.calculate(error);
-        double omega = Drivetrain.getInstance().adjustPigeon(0);
-        ChassisSpeeds speeds = new ChassisSpeeds(forwardAmount, 0, 0);
-        Drivetrain.getInstance().setAngleAndDrive(speeds);
+        // sets the error to the difference between the setpoint and the current roll value
+
+        // sets the forward amount to the calculated velocity given the error
+
+        // sets the omega to the adjusted pigeon value (see Drivetrain.java)
+
+        // creates a new ChassisSpeeds object with the forward amount, 0, and 0
+
+        // sets the angle and drive to the ChassisSpeeds object
     }
 
     /**
      * Stops command when the pitch value is within the error tolerance
      * of the setpoint
+     * Make sure to override the method
      */
-    @Override
     public boolean isFinished() {
-        return pitchController.atSetpoint();
+        // Change
+        return false;
     }
 
     /**
      * Sets the x, y, and rotational velocities to 0.
      */
     public void end(boolean interrupted) {
-        Drivetrain.getInstance().setAngleAndDrive(new ChassisSpeeds());
+        return;
     }
 }

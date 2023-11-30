@@ -5,16 +5,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.subsystems.Claw;
 
-public class ToggleClaw extends InstantCommand{
+public class ToggleClaw /* extends __ */ {
+    /**
+     * Constructor for CloseClaw
+     * Associates CloseClaw with Claw subsystem
+     */
     public ToggleClaw() {
-        addRequirements(Claw.getInstance());
+        /* CODE HERE */
     }
 
-    public void initialize() {    
-        if (Claw.getInstance().getClaw().get() == DoubleSolenoid.Value.kForward)
-            Claw.getInstance().getClaw().set(DoubleSolenoid.Value.kReverse);
-        else
-            Claw.getInstance().getClaw().set(DoubleSolenoid.Value.kForward);
-    }
+    /**
+     * Remember what method its in (what methods do InstantCommand have)
+     * If the claw is open, close it. If the claw is closed, open it.
+     */
 }
 

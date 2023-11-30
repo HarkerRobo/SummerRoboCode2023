@@ -77,20 +77,6 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Current Auton:", autonChooser.getSelected());
 
-        // double pdhVoltage = powerDistribution.getVoltage();
-        // double pdhCurrent = powerDistribution.getCurrent(20);
-        // SmartDashboard.putNumber("pdh voltage", pdhVoltage);
-        // SmartDashboard.putNumber("rio current", pdhCurrent);
-
-        // SmartDashboard.putNumber("kP",);
-        // SmartDashboard.putNumber("kI",
-        // Drivetrain.getInstance().thetaController.getI());
-        // SmartDashboard.putNumber("kD",
-        // Drivetrain.getInstance().thetaController.getD());
-
-        // SmartDashboard.putData(Drivetrain.getInstance());
-        // SmartDashboard.putData(Claw.getInstance());
-
         NetworkTableInstance.getDefault().flushLocal();
         NetworkTableInstance.getDefault().flush();
     }
@@ -112,18 +98,6 @@ public class Robot extends TimedRobot {
                         .setPose(Trajectories.apply(new Pose2d(1.91, 1.09, Rotation2d.fromDegrees(180))));
                 Autons.bottomPath.schedule();
                 break;
-            // case "Top Path And Push":
-            // Drivetrain.getInstance()
-            // .setPose(Trajectories.apply(new Pose2d(1.91, 4.44,
-            // Rotation2d.fromDegrees(180))));
-            // Autons.topPathAndPush.schedule();
-            // break;
-            // case "Bottom Path And Push":
-            // Drivetrain.getInstance()
-            // .setPose(Trajectories.apply(new Pose2d(1.91, 1.09,
-            // Rotation2d.fromDegrees(180))));
-            // Autons.bottomPathAndPush.schedule();
-            // break;
             case "Middle Path":
                 Drivetrain.getInstance()
                         .setPose(Trajectories.apply(new Pose2d(1.91, 2.75, Rotation2d.fromDegrees(180))));
